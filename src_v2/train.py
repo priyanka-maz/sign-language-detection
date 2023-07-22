@@ -6,8 +6,8 @@ import tensorflow as tf
 
 """
 DATASET_DIR = tf.keras.utils.get_file(
-    "flower_photos",
-    "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz",
+    "American_Sign_Language_Letters_Multiclass",
+    "https://example.net/American_Sign_Language_Letters_Multiclass.tgz",
     untar=True,
 )
 """
@@ -20,12 +20,14 @@ BATCH_SIZE: int = 32
 IMAGE_SIZE: tuple[int, int] = (160, 160)
 IMAGE_SHAPE: tuple[int, int, int] = IMAGE_SIZE + (3,)
 
+BASE_MODEL_LAYER_COUNT: int = 154
+
 VALIDATION_SPLIT: float = 0.2
-BASE_LEARNING_RATE: float = 6.0e-4
-FINE_TUNE_LEARNING_RATE: float = 6.0e-6
-INITIAL_EPOCHS: int = 60
-FINE_TUNE_EPOCHS: int = 80
-FINE_TUNE_AT: int = 100
+BASE_LEARNING_RATE: float      = 5.5e-4
+FINE_TUNE_LEARNING_RATE: float = 5.5e-6
+INITIAL_EPOCHS: int   = 100
+FINE_TUNE_EPOCHS: int = 100
+FINE_TUNE_AT: int = min(120, BASE_MODEL_LAYER_COUNT)
 
 NUM_EVAL_EXAMPLES = 50
 
@@ -121,7 +123,7 @@ def plot_summary(
     plt.plot(
         [INITIAL_EPOCHS - 1, INITIAL_EPOCHS - 1], plt.ylim(), label="Start Fine Tuning"
     )
-    plt.legend(loc="lower right")
+    plt.legend(loc="lower left")
     plt.title("Training and Validation Accuracy")
 
     plt.subplot(2, 1, 2)
@@ -131,11 +133,11 @@ def plot_summary(
     plt.plot(
         [INITIAL_EPOCHS - 1, INITIAL_EPOCHS - 1], plt.ylim(), label="Start Fine Tuning"
     )
-    plt.legend(loc="upper right")
+    plt.legend(loc="lower left")
     plt.title("Training and Validation Loss")
 
     plt.xlabel("epoch")
-    plt.show(block=False)
+    plt.show()
 
 
 def save_model():
@@ -165,6 +167,9 @@ def lite_model(interpreter, images):
 
 if __name__ == "__main__":
     train_dataset, validation_dataset, class_names = split_dataset(VALIDATION_SPLIT)
+
+    print("Class names:")
+    print(class_names)
 
     base_model, model = build_model(len(class_names))
     model.summary()
