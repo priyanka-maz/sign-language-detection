@@ -4,31 +4,27 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 
-"""
 DATASET_DIR = tf.keras.utils.get_file(
     "American_Sign_Language_Letters_Multiclass",
-    "https://example.net/American_Sign_Language_Letters_Multiclass.tgz",
+    "file:./datasets/American_Sign_Language_Letters_Multiclass.tgz",
     untar=True,
 )
-"""
-DATASET_DIR = "/home/pgan/.keras/datasets/American_Sign_Language_Letters_Multiclass"
 
 CHECKPOINT_PATH: str = "./checkpoint/"
 TFLITE_FNAME: str = "model.tflite"
 
-BATCH_SIZE: int = 32
-IMAGE_SIZE: tuple[int, int] = (160, 160)
+BATCH_SIZE: int = 16
+IMAGE_SIZE: tuple[int, int] = (200, 200)
 IMAGE_SHAPE: tuple[int, int, int] = IMAGE_SIZE + (3,)
 
-BASE_MODEL_LAYER_COUNT: int = 154
-
 VALIDATION_SPLIT: float = 0.2
-BASE_LEARNING_RATE: float      = 5.5e-4
-FINE_TUNE_LEARNING_RATE: float = 5.5e-6
-INITIAL_EPOCHS: int   = 100
-FINE_TUNE_EPOCHS: int = 100
-FINE_TUNE_AT: int = min(120, BASE_MODEL_LAYER_COUNT)
+BASE_LEARNING_RATE: float      = 1.0e-4
+FINE_TUNE_LEARNING_RATE: float = 1.0e-5
+INITIAL_EPOCHS: int   = 60
+FINE_TUNE_EPOCHS: int = 40
+FINE_TUNE_AT: int = 120
 
+OPTIMIZE_TFLITE: bool = False
 NUM_EVAL_EXAMPLES = 50
 
 
@@ -58,8 +54,8 @@ def split_dataset(
 
 
 def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
-    base_model: tf.keras.Model = tf.keras.applications.MobileNetV2(
-        input_shape=IMAGE_SHAPE, include_top=False, weights="imagenet"
+    base_model: tf.keras.Model = tf.keras.applications.inception_v3.InceptionV3(
+        input_shape=IMAGE_SHAPE, include_top=False, weights="imagenet", pooling="avg"
     )
     base_model.trainable = False
 
@@ -74,9 +70,8 @@ def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
 
     inputs = tf.keras.Input(shape=IMAGE_SHAPE)
     x = data_augmentation(inputs)
-    x = tf.keras.applications.mobilenet_v2.preprocess_input(x)
+    x = tf.keras.applications.inception_v3.preprocess_input(x)
     x = base_model(x, training=False)
-    x = tf.keras.layers.GlobalAveragePooling2D()(x)
     x = tf.keras.layers.Dropout(rate=0.2)(x)
     outputs = tf.keras.layers.Dense(
         num_classes,
@@ -93,13 +88,12 @@ def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
     return base_model, model
 
 
-def finetune_model(base_model: tf.keras.Model, model: tf.keras.Model):
+def fine_tune_model(base_model: tf.keras.Model, model: tf.keras.Model):
     base_model.trainable = True
     for layer in base_model.layers[:FINE_TUNE_AT]:
         layer.trainable = False
 
     model.compile(
-        #optimizer=tf.keras.optimizers.RMSprop(learning_rate=(FINE_TUNE_LEARNING_RATE)),
         optimizer=tf.keras.optimizers.Adam(learning_rate=FINE_TUNE_LEARNING_RATE),
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=["accuracy"],
@@ -144,7 +138,8 @@ def save_model():
     tf.saved_model.save(model, CHECKPOINT_PATH)
 
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
-    #converter.optimizations = set([tf.lite.Optimize.DEFAULT])
+    if OPTIMIZE_TFLITE:
+        converter.optimizations = set([tf.lite.Optimize.DEFAULT])
     lite_model_content = converter.convert()
 
     with open(os.path.join(CHECKPOINT_PATH, TFLITE_FNAME), "wb") as f:
@@ -168,10 +163,10 @@ def lite_model(interpreter, images):
 if __name__ == "__main__":
     train_dataset, validation_dataset, class_names = split_dataset(VALIDATION_SPLIT)
 
-    print("Class names:")
-    print(class_names)
+    print(f"Class names:\n{class_names}")
 
     base_model, model = build_model(len(class_names))
+    print(f"Base model layer count: {len(base_model.layers)}")
     model.summary()
     print(f"Trainable variables in our model: {len(model.trainable_variables)}")
 
@@ -181,7 +176,7 @@ if __name__ == "__main__":
         validation_data=validation_dataset
     )
 
-    base_model, model = finetune_model(base_model, model)
+    base_model, model = fine_tune_model(base_model, model)
     model.summary()
     print(f"Number of trainable variables: {len(model.trainable_variables)}")
 

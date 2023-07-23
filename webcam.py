@@ -1,14 +1,11 @@
-import os.path
-
 import cv2
 import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-CHECKPOINT_PATH: str = "./checkpoint/"
-TFLITE_FNAME: str = "model.tflite"
+TFLITE_PATH: str = "./models/model_loss-0.496_accuracy-0.871.tflite"
 
-IMAGE_SIZE: tuple[int, int] = (160, 160)
+IMAGE_SIZE: tuple[int, int] = (200, 200)
 CLASS_NAMES: list[str] = [
     "A", "B", "C", "D", "E",
     "F", "G", "H", "I", "J",
@@ -24,9 +21,7 @@ NOOP_CLASS_NAMES: list[str] = ["nothing"]
 
 
 def load_model():
-    interpreter = tf.lite.Interpreter(
-        model_path=os.path.join(CHECKPOINT_PATH, TFLITE_FNAME)
-    )
+    interpreter = tf.lite.Interpreter(model_path=TFLITE_PATH)
     return interpreter
 
 
