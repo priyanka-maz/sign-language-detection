@@ -118,7 +118,7 @@ if __name__ == "__main__":
                 (255, 255, 255),
             )
             cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
-            cv2.imshow("img", img)
+            cv2.imshow("Video Capture", img)
 
             blank_img = np.zeros((200, 1200, 3), np.uint8)
             cv2.putText(
@@ -130,7 +130,7 @@ if __name__ == "__main__":
                 (255, 255, 255),
                 2,
             )
-            cv2.imshow("sequence", blank_img)
+            cv2.imshow("Text", blank_img)
 
             keyboard_key = cv2.waitKey(1)
             if keyboard_key == 27:  # when `esc` is pressed
