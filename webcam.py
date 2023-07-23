@@ -16,7 +16,8 @@ CLASS_NAMES: list[str] = [
 ]
 
 TARGET_FRAME_COUNT: int = 4
-TARGET_CONSECUTIVE_PREDICTIONS: int = 3
+TARGET_CONSECUTIVE_PREDICTIONS: int = 2
+TARGET_PREDICTION_SCORE: float = 0.75
 NOOP_CLASS_NAMES: list[str] = ["nothing"]
 
 
@@ -76,7 +77,10 @@ if __name__ == "__main__":
 
                 predicted_char, prediction_score = predict(image_array)
 
-                if previous_predicted_char == predicted_char:
+                if (
+                    previous_predicted_char == predicted_char
+                    and prediction_score >= TARGET_PREDICTION_SCORE
+                ):
                     consecutive_predictions += 1
                 else:
                     consecutive_predictions = 0
