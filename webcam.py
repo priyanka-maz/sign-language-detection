@@ -3,9 +3,9 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-TFLITE_PATH: str = "./models/model_loss-0.496_accuracy-0.871.tflite"
+TFLITE_PATH: str = "./models/model_efficientnet_v2s.tflite"
 
-IMAGE_SIZE: tuple[int, int] = (200, 200)
+IMAGE_SIZE: tuple[int, int] = (150, 150)
 CLASS_NAMES: list[str] = [
     "A", "B", "C", "D", "E",
     "F", "G", "H", "I", "J",

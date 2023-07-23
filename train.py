@@ -13,15 +13,15 @@ DATASET_DIR = tf.keras.utils.get_file(
 CHECKPOINT_PATH: str = "./checkpoint/"
 TFLITE_FNAME: str = "model.tflite"
 
-BATCH_SIZE: int = 16
-IMAGE_SIZE: tuple[int, int] = (200, 200)
+BATCH_SIZE: int = 32
+IMAGE_SIZE: tuple[int, int] = (150, 150)
 IMAGE_SHAPE: tuple[int, int, int] = IMAGE_SIZE + (3,)
 
 VALIDATION_SPLIT: float = 0.2
-BASE_LEARNING_RATE: float      = 1.0e-4
-FINE_TUNE_LEARNING_RATE: float = 1.0e-5
-INITIAL_EPOCHS: int   = 60
-FINE_TUNE_EPOCHS: int = 40
+BASE_LEARNING_RATE: float = 5.0e-3
+FINE_TUNE_LEARNING_RATE: float = 5.0e-5
+INITIAL_EPOCHS: int = 20
+FINE_TUNE_EPOCHS: int = 10
 FINE_TUNE_AT: int = 120
 
 OPTIMIZE_TFLITE: bool = False
@@ -48,14 +48,20 @@ def split_dataset(
     class_names: tuple[str] = train_dataset.class_names
 
     train_dataset = train_dataset.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
-    validation_dataset = validation_dataset.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
+    validation_dataset = validation_dataset.cache().prefetch(
+        buffer_size=tf.data.AUTOTUNE
+    )  # noqa: E501
 
     return train_dataset, validation_dataset, class_names
 
 
 def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
-    base_model: tf.keras.Model = tf.keras.applications.inception_v3.InceptionV3(
-        input_shape=IMAGE_SHAPE, include_top=False, weights="imagenet", pooling="avg"
+    base_model: tf.keras.Model = tf.keras.applications.efficientnet_v2.EfficientNetV2S(
+        input_shape=IMAGE_SHAPE,
+        include_top=False,
+        weights="imagenet",
+        pooling="avg",
+        include_preprocessing=True,
     )
     base_model.trainable = False
 
@@ -70,7 +76,6 @@ def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
 
     inputs = tf.keras.Input(shape=IMAGE_SHAPE)
     x = data_augmentation(inputs)
-    x = tf.keras.applications.inception_v3.preprocess_input(x)
     x = base_model(x, training=False)
     x = tf.keras.layers.Dropout(rate=0.2)(x)
     outputs = tf.keras.layers.Dense(
@@ -80,7 +85,7 @@ def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
     )(x)
     model: tf.keras.Model = tf.keras.Model(inputs, outputs)
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=BASE_LEARNING_RATE),
+        optimizer=tf.keras.optimizers.Nadam(learning_rate=BASE_LEARNING_RATE),
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=["accuracy"],
     )
@@ -94,7 +99,7 @@ def fine_tune_model(base_model: tf.keras.Model, model: tf.keras.Model):
         layer.trainable = False
 
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=FINE_TUNE_LEARNING_RATE),
+        optimizer=tf.keras.optimizers.Nadam(learning_rate=FINE_TUNE_LEARNING_RATE),
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=["accuracy"],
     )
@@ -171,9 +176,7 @@ if __name__ == "__main__":
     print(f"Trainable variables in our model: {len(model.trainable_variables)}")
 
     history = model.fit(
-        train_dataset,
-        epochs=INITIAL_EPOCHS,
-        validation_data=validation_dataset
+        train_dataset, epochs=INITIAL_EPOCHS, validation_data=validation_dataset
     )
 
     base_model, model = fine_tune_model(base_model, model)
@@ -183,7 +186,7 @@ if __name__ == "__main__":
     fine_tune_history = model.fit(
         train_dataset,
         epochs=(INITIAL_EPOCHS + FINE_TUNE_EPOCHS),
-        initial_epoch=history.epoch[-1],
+        initial_epoch=INITIAL_EPOCHS,
         validation_data=validation_dataset,
     )
 
@@ -193,9 +196,7 @@ if __name__ == "__main__":
     val_acc: tuple[float] = (
         history.history["val_accuracy"] + fine_tune_history.history["val_accuracy"]
     )
-    loss: tuple[float] = (
-        history.history["loss"] + fine_tune_history.history["loss"]
-    )
+    loss: tuple[float] = history.history["loss"] + fine_tune_history.history["loss"]
     val_loss: tuple[float] = (
         history.history["val_loss"] + fine_tune_history.history["val_loss"]
     )
