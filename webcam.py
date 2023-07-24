@@ -15,9 +15,9 @@ CLASS_NAMES: list[str] = [
     "Z", "del", "nothing", "space",
 ]
 
-TARGET_FRAME_COUNT: int = 4
-TARGET_CONSECUTIVE_PREDICTIONS: int = 2
-TARGET_PREDICTION_SCORE: float = 0.75
+TARGET_FRAME_COUNT: int = 3
+TARGET_CONSECUTIVE_PREDICTIONS: int = 5
+TARGET_PREDICTION_SCORE: float = 0.98
 NOOP_CLASS_NAMES: list[str] = ["nothing"]
 
 
@@ -42,6 +42,9 @@ def predict(image_array):
 
     return predicted_char, prediction_score
 
+def max_predicted(predictions: dict[str, int]) -> tuple[str, int]:
+    return max(predictions.items(), key=lambda k: k[1])
+
 
 if __name__ == "__main__":
     interpreter = load_model()
@@ -54,8 +57,7 @@ if __name__ == "__main__":
     video_capture = cv2.VideoCapture(0)
 
     frame_count: int = 0
-    previous_predicted_char: str = ""
-    consecutive_predictions: int = 0
+    previous_predictions: dict[str, int] = {letter: 0 for letter in CLASS_NAMES}
     text: str = ""
 
     while True:
@@ -78,27 +80,23 @@ if __name__ == "__main__":
                 predicted_char, prediction_score = predict(image_array)
 
                 if (
-                    previous_predicted_char == predicted_char
-                    and prediction_score >= TARGET_PREDICTION_SCORE
-                ):
-                    consecutive_predictions += 1
-                else:
-                    consecutive_predictions = 0
-
-                previous_predicted_char = predicted_char
-
-                if (
-                    consecutive_predictions == TARGET_CONSECUTIVE_PREDICTIONS
+                    prediction_score >= TARGET_PREDICTION_SCORE
                     and predicted_char not in NOOP_CLASS_NAMES
                 ):
-                    consecutive_predictions = 0
+                    previous_predictions[predicted_char] += 1
 
-                    if predicted_char == "space":
+                letter, count = max_predicted(previous_predictions)
+                if (
+                    count == TARGET_CONSECUTIVE_PREDICTIONS
+                ):
+                    previous_predictions = {letter: 0 for letter in CLASS_NAMES}
+
+                    if letter == "space":
                         text += " "
-                    elif predicted_char == "del":
+                    elif letter == "del":
                         text = text[:-1]
                     else:
-                        text += predicted_char
+                        text += letter
 
             cv2.putText(
                 img,
