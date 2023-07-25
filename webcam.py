@@ -3,22 +3,21 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-TFLITE_PATH: str = "./models/model_efficientnet_v2s.tflite"
+TFLITE_PATH: str = "./models/model.tflite"
 
-IMAGE_SIZE: tuple[int, int] = (150, 150)
+IMAGE_SIZE: tuple[int, int] = (160, 160)
 CLASS_NAMES: list[str] = [
     "A", "B", "C", "D", "E",
     "F", "G", "H", "I", "J",
     "K", "L", "M", "N", "O",
     "P", "Q", "R", "S", "T",
     "U", "V", "W", "X", "Y",
-    "Z", "del", "nothing", "space",
+    "Z", "del", "space",
 ]
 
 TARGET_FRAME_COUNT: int = 3
 TARGET_CONSECUTIVE_PREDICTIONS: int = 5
-TARGET_PREDICTION_SCORE: float = 0.98
-NOOP_CLASS_NAMES: list[str] = ["nothing"]
+TARGET_PREDICTION_SCORE: float = 0.90
 
 
 def load_model():
@@ -34,8 +33,7 @@ def get_image_array(image_data):
 
 
 def predict(image_array):
-    predictions_lite = classify_lite(input_2=image_array)["outputs"]
-    score_lite = tf.nn.softmax(predictions_lite)
+    score_lite = classify_lite(input_2=image_array)["outputs"]
 
     predicted_char = CLASS_NAMES[np.argmax(score_lite)]
     prediction_score = np.max(score_lite)
@@ -81,7 +79,6 @@ if __name__ == "__main__":
 
                 if (
                     prediction_score >= TARGET_PREDICTION_SCORE
-                    and predicted_char not in NOOP_CLASS_NAMES
                 ):
                     previous_predictions[predicted_char] += 1
 
