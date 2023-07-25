@@ -1,0 +1,238 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<head>
+    <link rel="icon" href="static/love-hand-l.png">
+
+    <title>Sign Language Detection</title>
+
+
+   
+    
+</head>
+    <body>
+
+        <script>
+            $(window).scroll(function() {     
+               var scroll = $(window).scrollTop();
+               if (scroll > 30) {
+                   $("#header").addClass("active");
+               }
+               else {
+                   $("#header").removeClass("active");
+               }
+           });
+       </script>
+   
+
+        <div id="container">
+            
+                
+
+                <video autoplay="true" id="videoElement" style="display:none;"></video>
+
+                <div id="header-bg"></div>
+                <div class="header-spacing"></div>
+            
+            
+                <br>
+                <!--From camera directly-->
+                <div class="row" style="width:100%;text-align:center;margin:0 auto;">
+                    <div class="col-xl">
+                        <div class="card camera-part">
+                            <!--In canvas-->
+                            <canvas id="canvasOutput" style="transform:scaleX(-1);"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-xl">
+                        <div class="card text-window">
+                            <div class="title-bar">
+                                <p class="align-middle">Console</p>
+
+                                <div class="button-yellow"></div>
+
+                                <div class="button-green" onclick="Settings()" title="click for settings"></div>
+                                <div class="button-red" onclick="RecordButton()" title="click to turn off camera"></div>
+                               
+                                <div class="range-slider-container" id="settings">
+
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <label for="voiceSelect" class="form-label">Voices</label>
+                                        </div>
+                                        <div class="col">
+                                            <select id="voiceSelect" class="form-select"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <label for="rate" class="form-label">Rate</label>
+                                        </div>
+                                        <div class="col">
+                                        <input type="range" class="form-range" min="0" max="2" value="1" step="0.1" id="rate"/>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+                            <textarea class="interpreted-text" id="interpreted-text" rows=10 placeholder="sudo yum lemme bang yo mum"></textarea>
+                            
+                        </div>
+                        <input type="text" id="test-input" onkeyup="consoleWrite()" hidden>
+                        <div class="button-container">
+                            <div class="row">
+                                <div class="col">
+                                    <button id="speak" type="button" class="red-button"> 
+                                        <i class="fa-solid fa-play"></i>&nbsp;&nbsp;Play
+                                    </button>
+                                    <button id="stop-audio" type="button" class="black-button stop-audio"> 
+                                        &nbsp;<i class="fa-solid fa-square"></i>&nbsp;
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="black-button" id="delete" onclick="DeleteText()"> 
+                                        &nbsp;<i class="fa-solid fa-delete-left fa-xl"></i>&nbsp;
+                                    </button>
+                                </div>
+                            </div>
+                                
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="espace"></div>
+                <div id="about-container">
+                    <h1>About</h1>
+                    This is the about us section 
+                </div>
+                <div class="espace"></div>
+
+            </div>
+
+    </body>
+
+
+    <script src="{{url_for('static', filename='connection.js')}}" type="text/javascript"></script>
+
+    <script>
+     
+
+        function About(){
+            var about = document.getElementById('about');
+
+            about.scrollIntoView();
+        }
+
+        function consoleWrite(){
+            var text = document.getElementById('test-input');
+            var textarea = document.getElementById('interpreted-text'); 
+            textarea.value = text.value;
+        }
+
+        function Settings(){
+            var settings = document.getElementById('settings');
+            if(settings.style.display == 'none' || settings.style.display =='')
+                settings.style.display ='block';
+            else
+                settings.style.display = 'none';
+        }
+
+
+
+    </script>
+        
+    <script>
+        let synth = window.speechSynthesis;
+
+        var speak_button = document.getElementById("speak");
+        var delete_button = document.getElementById("delete");
+        var stop_audio = document.getElementById("stop-audio");
+        var rate = document.getElementById("rate");
+        var pitch = document.getElementById("pitch");
+        var voice_option = document.getElementById("voiceSelect");
+
+
+        speak_button.addEventListener("click", () =>{
+            
+            const utterance = new SpeechSynthesisUtterance(document.getElementById("interpreted-text").value);
+            utterance.rate = rate.value;
+            const voices = speechSynthesis.getVoices();
+
+            utterance.voice = voices[voice_option.selectedIndex];
+            console.log(voices[voice_option.selectedIndex]);
+
+            stop_audio.style.display = "inline";
+            synth.speak(utterance);
+            console.log("start");
+            const interval = setInterval(() => {
+                speak_button.innerHTML = '<i class="fa-solid fa-play fa-fade"></i>&nbsp;&nbsp;Playin...';
+
+                if (!synth.speaking) {
+                  clearInterval(interval);
+                  speak_button.innerHTML = '<i class="fa-solid fa-play"></i>&nbsp;&nbsp;Play';
+                  stop_audio.style.display = "none";
+
+                }
+              }, 100); 
+
+        });
+
+        
+        stop_audio.addEventListener("click", () =>{
+            synth.cancel();
+            console.log("cancel");
+        });
+
+
+        function populateVoiceList() {
+            if (typeof speechSynthesis === "undefined") {
+              return;
+            }
+          
+            const voices = speechSynthesis.getVoices();
+
+          
+            for (let i = 0; i < voices.length; i++) {
+              const option = document.createElement("option");
+              option.textContent = `${voices[i].name} (${voices[i].lang})`;
+          
+              if (voices[i].default) {
+                option.textContent += " — DEFAULT";
+              }
+
+          
+              option.setAttribute("data-lang", voices[i].lang);
+              option.setAttribute("data-name", i);
+              document.getElementById("voiceSelect").appendChild(option);
+            }
+          }
+          
+          populateVoiceList();
+          if (
+            typeof speechSynthesis !== "undefined" &&
+            speechSynthesis.onvoiceschanged !== undefined
+          ) {
+            speechSynthesis.onvoiceschanged = populateVoiceList;
+          }
+          
+
+
+        function DeleteText()
+        {
+            document.getElementById("interpreted-text").value='';
+        }
+
+       
+
+    </script>
+
+
+    
+
+    {% endblock %}
+
+

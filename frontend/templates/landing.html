@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% block content %}
+<html style="scroll-snap-type: y mandatory;">
+<head>
+    <link rel="icon" href="static/love-hand-l.png">
+
+    <title>Sign Language Detection</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+    
+</head>
+    <body>
+
+        <div id="container">
+            
+                
+
+                <video autoplay="true" id="videoElement" style="display:none;"></video>
+
+                
+
+                <div class="block block-1">
+                    <div class="row w-100 h-100 mx-auto">
+                        <div class="col text-center my-auto mx-auto">
+                            <div class="video-container">
+                                <video autoplay muted loop width="100%">
+                                    <source src="{{url_for('static', filename='Hand Motion.mp4')}}" >
+                                </video>
+                            </div>                       
+                         </div>
+                        <div class="col text-center my-auto">
+                            <a href="/detect" class="no-decoration">
+                                <div class="black-button-big">Start&nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="block block-2">
+                    <div class="header-spacing"></div>
+                    <br>
+                    <br>
+                    <div class="row w-100 mx-auto">
+                       
+                        <div class="col-lg text-center my-auto">
+                            <div class="sign-image-container">
+                                <div class="title-bar border border-bottom border-dark">
+                                    <p class="align-middle">Console</p>
+    
+                                    <div class="button-yellow"></div>
+    
+                                    <div class="button-green"  title="Nothing here"></div>
+                                    <div class="button-red" onclick="DeleteAll()" title="Click to erase all deafs and mutes"></div>
+                                    
+                                </div>
+                               
+                                <div class="sign-image-box" id="sign-image-box">
+                                    
+                                    <h2 class="text-sign">Get signs for your sentences.</h2>
+                                    
+                                    
+                                </div>  
+                            </div>            
+                        </div>
+                        <div class="col-lg-5 text-center my-auto">
+                            <ul id="alphabets-list">
+                                <li class="alpha-button" data-alpha="space">Space</li>
+                                <li class="alpha-button" data-alpha="del">Del</li>
+                            </ul>
+                           
+                            <button class="black-button" id="delete"> 
+                                &nbsp;<i class="fa-solid fa-delete-left fa-lg"></i>&nbsp;
+                            </button>
+                            
+                        </div>
+                    
+                </div>
+        </div>
+
+        <script src="dist/long-press.min.js"></script>
+
+        
+<script>
+
+    var alphabets_list = document.getElementById('alphabets-list');
+    window.onload = function(){loadAlphabets(); abc();};
+    let elements = document.getElementsByClassName("alpha-button");
+    var image_container = document.getElementById("sign-image-box");
+    var delete_button = document.getElementById("delete");
+    
+    function loadAlphabets(){
+        var temp = alphabets_list.innerHTML;
+        console.log(temp);
+        alphabets_list.innerHTML = '';
+        for (var i = 0; i < 26; i++){
+            alphabets_list.innerHTML = alphabets_list.innerHTML + '<li class="alpha-button alpha-button-width" data-alpha="'+String.fromCharCode(i+65)+'">'+ String.fromCharCode(i+65) +'</li>'
+        }
+        alphabets_list.innerHTML += temp;
+    }
+
+
+    function abc() {    
+    
+        for(let i = 0; i < elements.length; i++) {
+            elements[i].onclick = function () {         
+                if(image_container.lastElementChild.tagName != 'DIV' ){
+                    image_container.innerHTML = "";
+                }       
+                
+                var new_sign_image = document.createElement("img");
+                new_sign_image.src = "static/symbols/" + elements[i].dataset.alpha +".jpg";
+                new_sign_image.classList.add("sign-image");
+
+                var alphabet = document.createElement("div");
+                alphabet.classList.add("alphabet");
+                alphabet.appendChild(new_sign_image);
+
+                var p = document.createElement("p");
+                p.classList.add("alphabet-name");
+                p.innerHTML = elements[i].innerHTML;
+                alphabet.appendChild(p);
+
+                image_container.appendChild(alphabet);
+            }
+        }
+    };
+
+
+    function DeleteAll(){
+        image_container.innerHTML = '<h2 class="text-sign">Get sign for your sentences.</h2>';
+    }
+
+
+    delete_button.addEventListener("click", function(e) {
+        
+        if(image_container.lastElementChild.tagName == "DIV")
+            image_container.removeChild(image_container.lastElementChild);
+
+        if(image_container.childElementCount == 0)
+            image_container.innerHTML = '<h2 class="text-sign">Get sign for your sentences.</h2>';
+    
+            
+    });
+
+
+</script>
+    </body>
+
+
+    
+    {% endblock %}
+
+    
+
+</html>
