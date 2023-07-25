@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-TFLITE_PATH: str = "./models/model_mobilenet_v2.tflite"
+TFLITE_PATH: str = "./models/model_efficientnet_v2s.tflite"
 
 IMAGE_SIZE: tuple[int, int] = (160, 160)
 CLASS_NAMES: list[str] = [
@@ -16,8 +16,8 @@ CLASS_NAMES: list[str] = [
 ]
 
 TARGET_FRAME_COUNT: int = 3
-TARGET_CONSECUTIVE_PREDICTIONS: int = 5
-TARGET_PREDICTION_SCORE: float = 0.90
+TARGET_CONSECUTIVE_PREDICTIONS: int = 4
+TARGET_PREDICTION_SCORE: float = 0.80
 
 
 def load_model():
