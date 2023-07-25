@@ -23,7 +23,7 @@ IMAGE_SIZE: tuple[int, int] = (160, 160)
 IMAGE_SHAPE: tuple[int, int, int] = IMAGE_SIZE + (3,)
 
 VALIDATION_SPLIT: float = 0.2
-DATA_AUGMENTATION_FACTOR: float = 0.1
+DATA_AUGMENTATION_FACTOR: float = 0.03
 DROPOUT_RATE: float = 0.2
 L2_REGULARIZATION: float = 0.0001
 
