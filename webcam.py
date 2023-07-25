@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-TFLITE_PATH: str = "./models/model.tflite"
+TFLITE_PATH: str = "./models/model_mobilenet_v2.tflite"
 
 IMAGE_SIZE: tuple[int, int] = (160, 160)
 CLASS_NAMES: list[str] = [
@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
                 letter, count = max_predicted(previous_predictions)
                 if (
-                    count == TARGET_CONSECUTIVE_PREDICTIONS
+                    count >= TARGET_CONSECUTIVE_PREDICTIONS
                 ):
                     previous_predictions = {letter: 0 for letter in CLASS_NAMES}
 
