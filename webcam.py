@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-TFLITE_PATH: str = "./models/model_efficientnet_v2s.tflite"
+TFLITE_PATH: str = "./models/model_mobilenet_v2.tflite"
 
 IMAGE_SIZE: tuple[int, int] = (160, 160)
 CLASS_NAMES: list[str] = [
@@ -17,12 +17,14 @@ CLASS_NAMES: list[str] = [
 
 TARGET_FRAME_COUNT: int = 3
 TARGET_CONSECUTIVE_PREDICTIONS: int = 4
-TARGET_PREDICTION_SCORE: float = 0.80
+TARGET_PREDICTION_SCORE: float = 0.92
 
 
 def load_model():
     interpreter = tf.lite.Interpreter(model_path=TFLITE_PATH)
-    return interpreter
+    # print(interpreter.get_signature_list())
+    classify_lite = interpreter.get_signature_runner("serving_default")
+    return classify_lite
 
 
 def get_image_array(image_data):
@@ -32,7 +34,7 @@ def get_image_array(image_data):
     return img_array
 
 
-def predict(image_array):
+def predict(classify_lite, image_array):
     score_lite = classify_lite(input_2=image_array)["outputs"]
 
     predicted_char = CLASS_NAMES[np.argmax(score_lite)]
@@ -45,9 +47,7 @@ def max_predicted(predictions: dict[str, int]) -> tuple[str, int]:
 
 
 if __name__ == "__main__":
-    interpreter = load_model()
-    # print(interpreter.get_signature_list())
-    classify_lite = interpreter.get_signature_runner("serving_default")
+    classify_lite = load_model()
 
     x1, y1 = 100, 100
     x2, y2 = (x1 + IMAGE_SIZE[0]), (y1 + IMAGE_SIZE[1])
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 image_data = Image.fromarray(img_cropped)
                 image_array = get_image_array(image_data)
 
-                predicted_char, prediction_score = predict(image_array)
+                predicted_char, prediction_score = predict(classify_lite, image_array)
 
                 if (
                     prediction_score >= TARGET_PREDICTION_SCORE
