@@ -54,6 +54,10 @@ def detect():
 def landing():
     return render_template('landing.html')
 
+@app.route('/about', methods=['POST', 'GET'])
+def about():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
     socketio.run(app, port = '5000', debug=True)
