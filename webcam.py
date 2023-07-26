@@ -22,7 +22,9 @@ TARGET_PREDICTION_SCORE: float = 0.92
 
 def load_model():
     interpreter = tf.lite.Interpreter(model_path=TFLITE_PATH)
-    return interpreter
+    # print(interpreter.get_signature_list())
+    classify_lite = interpreter.get_signature_runner("serving_default")
+    return classify_lite
 
 
 def get_image_array(image_data):
@@ -45,9 +47,7 @@ def max_predicted(predictions: dict[str, int]) -> tuple[str, int]:
 
 
 if __name__ == "__main__":
-    interpreter = load_model()
-    # print(interpreter.get_signature_list())
-    classify_lite = interpreter.get_signature_runner("serving_default")
+    classify_lite = load_model()
 
     x1, y1 = 100, 100
     x2, y2 = (x1 + IMAGE_SIZE[0]), (y1 + IMAGE_SIZE[1])
