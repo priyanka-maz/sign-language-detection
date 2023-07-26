@@ -43,7 +43,6 @@ EARLYSTOP_PATIENCE: int = 3
 
 OPTIMIZE_TFLITE: bool = False
 NUM_CALIBRATION_EXAMPLES: int = 150
-NUM_EVAL_EXAMPLES = 50
 
 
 def build_dataset(validation_split: float, subset: str) -> tf.data.Dataset:
@@ -179,9 +178,9 @@ def plot_summary(
     plt.show()
 
 
-def get_representative_dataset(train_dataset):
+def get_representative_dataset(dataset):
     return itertools.islice(
-        ([image[None, ...]] for batch, _ in train_dataset for image in batch),
+        ([image[None, ...]] for images, _ in dataset for image in images),
         NUM_CALIBRATION_EXAMPLES,
     )
 
@@ -206,7 +205,9 @@ def load_model():
     interpreter = tf.lite.Interpreter(
         model_path=os.path.join(CHECKPOINT_PATH, TFLITE_FNAME)
     )
-    return interpreter
+    # print(interpreter.get_signature_list())
+    classify_lite = interpreter.get_signature_runner("serving_default")
+    return classify_lite
 
 
 def lite_model(interpreter, images):
@@ -214,6 +215,28 @@ def lite_model(interpreter, images):
     interpreter.set_tensor(interpreter.get_input_details()[0]["index"], images)
     interpreter.invoke()
     return interpreter.get_tensor(interpreter.get_output_details()[0]["index"])
+
+
+def evaluate_model(model, dataset):
+    y_pred = []
+    y_true = []
+    for images, labels in dataset:
+        for image, label in zip(images, labels):
+            y_pred.append(np.argmax(model(image[None, ...]).numpy()[0]))
+            y_true.append(label.numpy())
+
+    return y_pred, y_true
+
+
+def evaluate_tflite(classify_lite, dataset):
+    y_pred = []
+    y_true = []
+    for images, labels in dataset:
+        for image, label in zip(images, labels):
+            y_pred.append(np.argmax(classify_lite(input_2=image[None, ...])["outputs"]))
+            y_true.append(label.numpy())
+
+    return y_pred, y_true
 
 
 if __name__ == "__main__":
@@ -274,43 +297,26 @@ if __name__ == "__main__":
 
     plot_summary(acc, val_acc, loss, val_loss)
 
-    interpreter = load_model()
+    print("-" * 20, "RESULTS", "-" * 20)
 
-    eval_dataset = (
-        (image, label) for batch in train_dataset for (image, label) in zip(*batch)
+    model_predictions, model_labels = evaluate_model(model, validation_dataset)
+
+    classify_lite = load_model()
+
+    tflite_predictions, tflite_labels = evaluate_tflite(
+        classify_lite, validation_dataset
     )
-    count = 0
-    count_lite_tf_agree = 0
-    count_lite_correct = 0
-    count_tf_correct = 0
-    for image, label in eval_dataset:
-        probs_lite = lite_model(interpreter, image[None, ...])[0]
-        probs_tf = model(image[None, ...]).numpy()[0]  # type: ignore
-        y_lite = np.argmax(probs_lite)
-        y_tf = np.argmax(probs_tf)
-        y_true = np.argmax(label)
-        count += 1
-        if y_lite == y_tf:
-            count_lite_tf_agree += 1
-        if y_lite == y_true:
-            count_lite_correct += 1
-        if y_tf == y_true:
-            count_tf_correct += 1
-        if count >= NUM_EVAL_EXAMPLES:
-            break
-    print(
-        f"""
-        TFLite model agrees with original model on {count_lite_tf_agree}
-        of {count} examples ({100.0 * count_lite_tf_agree / count}%).
-        """
-    )
-    print(
-        f"""
-        TFlow model is accurate on {count_tf_correct}
-        of {count} examples ({100.0 * count_tf_correct / count}%)."""
-    )
-    print(
-        f"""
-        TFLite model is accurate on {count_lite_correct}
-        of {count} examples ({100.0 * count_lite_correct / count}%)."""
-    )
+
+    results: list[dict[str, str]] = []
+    for model_label, model_prediction, tflite_prediction in zip(
+        model_labels, model_predictions, tflite_predictions
+    ):
+        results.append(
+            {
+                "true": class_names[model_label],
+                "model_pred": class_names[model_prediction],
+                "tflite_pred": class_names[tflite_prediction],
+            }
+        )
+
+    # print(results)
