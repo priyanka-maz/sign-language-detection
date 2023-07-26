@@ -7,7 +7,25 @@
     <title>Sign Language Detection</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
+    
+    <script>
+        window.addEventListener("scroll", scroll);
+        function scroll() {
+            var pageTop = $(document).scrollTop();
+            var pageBottom = pageTop + $(window).height();
+            var tags = $(".appear");
+            for (var i = 0; i < tags.length; i++) {
+              var tag = tags[i];
+              if ($(tag).position().top.toFixed(0) < pageBottom) {
+                $(tag).addClass("visible");
+    
+    
+              } else  {
+                $(tag).removeClass("visible");
+              }
+            }
+          }
+        </script>
 
     
 </head>
@@ -22,22 +40,54 @@
                 
 
                 <div class="block block-1">
-                    <div class="row w-100 h-100 mx-auto">
-                        <div class="col text-center my-auto mx-auto">
+                    <div class="header-spacing"></div>
+
+                    <div class="row w-100 mx-auto my-lg-5">
+                        <div class="col-md text-center mx-auto my-auto">
                             <div class="video-container">
                                 <video autoplay muted loop width="100%">
                                     <source src="{{url_for('static', filename='Hand Motion.mp4')}}" >
                                 </video>
                             </div>                       
                          </div>
-                        <div class="col text-center my-auto">
+                        <div class="col-md text-center my-lg-5">
+                            <div class="tagline">
+                                <h1>The Power of Speech in the palm of your hand</h1>
+                                <h5>
+                                    Welcome to Helen, a website that provides American Sign Language(ASL) detection and visualization for Deaf, Hard of Hearing and Speech-disabled individuals using state of the art deep learning technologies.
+                                    <br>
+                                    <br>
+                                    Make your voice feel seen!
+                                </h5>
+                            </div>
                             <a href="/detect" class="no-decoration">
                                 <div class="black-button-big">Start&nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i></div>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
+
                 <div class="block block-2">
+                    <div class="header-spacing"></div>
+                    <div class="desc appear">
+                        <h1>What is ASL?</h1>
+                        <p>
+                            American Sign Language (ASL) is a complete, natural language that is primarily used by the Deaf and hard of hearing community in the United States and parts of the world. 
+                            ASL is a visual-gestural language with its own grammar and syntax, and it is not based on spoken English. 
+                            Although there are other sign languages, ASL is the most popular sign language. It has its own unique vocabulary and cultural aspects.   
+                            <br>
+                            ASL relies on handshapes, movements, facial expressions, and body postures to convey meaning. It is a rich and expressive language that allows for complex communication, including storytelling, discussions, and emotional expression
+                            <br>
+                            As a visual language, ASL has also gained popularity as a means of communication for individuals with certain language and communication disorders and for people seeking an alternative mode of communication.
+                            <br>
+                            This website is capable of recognizing ASL English alphabets.
+                        </p>
+                    </div>
+                </div>
+                
+
+                <div class="block block-3">
                     <div class="header-spacing"></div>
                     <br>
                     <br>

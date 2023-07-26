@@ -1,5 +1,4 @@
 var record = false;
-var emotion;
 
 function RecordButton(){
     if(record == false)
@@ -23,8 +22,8 @@ socket.on('connect', function(){
 
 const video = document.querySelector("#videoElement");
 
-video.width = 266; 
-video.height = 200; 
+
+
 
 var videoStream = null;
 
@@ -48,6 +47,7 @@ function startVideoCapture()
     }
 }
 
+//Stop Video Capture
 function stopVideoCapture() {
     if (videoStream) {
       const tracks = videoStream.getTracks();
@@ -57,8 +57,16 @@ function stopVideoCapture() {
 }
 
 
+//Control webcam capture and sending quality and aspect ratio
+video.width = 266; 
+video.height = 200; 
+
+//FPS, rate at which the video frames are sent
+const FPS = 200;
 
 
+
+//The canvas where the video feed from the webcam is shown directly
 const canvas = document.querySelector("#canvasOutput");
 canvas.width = video.width;
 canvas.height = video.height;
@@ -69,10 +77,9 @@ let dst = new cv.Mat(video.height, video.width, cv.CV_8UC4);
 let cap = new cv.VideoCapture(video);
 
 
-
-const FPS = 15;
 var timeout;
 
+//For showing webcam feed on the Canvas
 function processVideo() {
     let begin = Date.now();
     cap.read(src);
@@ -80,7 +87,6 @@ function processVideo() {
     if(!record)
     {
         cv.imshow("canvasOutput", dst);
-    
         // schedule next one.
         let delay = 1000/30 - (Date.now() - begin);
         setTimeout(processVideo, delay);
@@ -88,16 +94,14 @@ function processVideo() {
     else
     {
         setTimeout(processVideo, 0);
-
     }
 }
-
-
 
 // schedule the first one.
 setTimeout(processVideo, 0);
 
-//Send to Server
+
+//Send frame to Server
 var a = setInterval(() => {
     if(!record){
         cap.read(src);
@@ -107,5 +111,26 @@ var a = setInterval(() => {
         socket.emit('image', data);
     }
 }, 10000/FPS);
+
+var preview_container = document.getElementById("preview2-container");
+var img = document.getElementById("preview")
+
+
+
+// Listen and receive 'processed_frame' from Flask Server
+socket.on('processed_frame', function(frameData) {
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    img.width = 300;
+     
+    // Decode the base64 encoded frame data into an image
+    img.src = 'data:image/jpeg;base64,' + frameData;
+
+
+    console.log((Date.now()/1000).toFixed());
+
+  });
 
 

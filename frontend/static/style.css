@@ -1,13 +1,13 @@
 @import url('https://fonts.cdnfonts.com/css/google-sans');
-@import url('https://fonts.cdnfonts.com/css/poppins');
+
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+
+@import url('https://db.onlinewebfonts.com/c/0210e8c7a07c76189f47127049f61dd5?family=Pixeloid+Sans');
+
+@import url('https://fonts.googleapis.com/css?family=VT323');
 
 
 
-
-    @font-face {
-        font-family: Comfortaa;
-        src: url('https://fonts.googleapis.com/css?family=Comfortaa');
-    }
 
     @keyframes fadeIn {
         0% { opacity: 0;}
@@ -21,6 +21,22 @@
             transform: translate(0, 0); }
       }
 
+    .font{
+        font-family: "Product Sans";
+    }
+
+
+    .appear {
+        opacity: 0;
+        transform: translate(0, 15vh);
+        transition: all 1s;
+      }
+
+      .appear.visible {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+    
 
     ::-webkit-scrollbar {
         width: 8px;
@@ -74,9 +90,6 @@ body{
     top: 0px;
 }
 
-.font{
-    font-family: 'Product Sans';
-}
 
 #header{
     position: fixed;
@@ -106,7 +119,7 @@ body{
 }
 
 .header-spacing{
-    padding-bottom: 40px;
+    padding-bottom: 75px;
 }
 
 #canvasOutput{
@@ -386,6 +399,7 @@ body{
 #about-container>h1{
     opacity: 70%;
     margin-bottom: 30px;
+    
 }
 
 
@@ -398,15 +412,31 @@ body{
 
 .block-1{
     background-color: rgb(193, 151, 252);
-    
+    height: fit-content;
+    min-height: 100%;
+    padding-bottom: 50px;
 }
 
+
 .block-2{
+    background-color: #8edc8a;
+    min-height: 100%;
+    max-height: fit-content;
+    padding-top: 0px;
+}
+
+.block-3{
     background-color: #dcad8a;
     min-height: 100%;
     max-height: fit-content;
-    padding-top: 50px;
+    padding-top: 0px;
 }
+
+@media only screen and (max-width: 768px) {
+    .block {
+        scroll-snap-align: none;
+    }
+  }
 
 .video-container{
 
@@ -414,6 +444,8 @@ body{
     border-radius: 20px;
     margin: 20px;
     min-width: 200px;
+   
+    
 }
 
 
@@ -434,7 +466,7 @@ body{
 
 
 .black-button-big{
-   
+    font-family: 'Pixeloid Sans';
     width: fit-content;
     border-radius: 50px;
     margin: 0 auto;
@@ -452,6 +484,7 @@ body{
     box-shadow: 3px 3px 0px 0px rgb(0, 0, 0), 0px 0px 0px 1px rgb(0, 0, 0);
     transition: 0.3s;
     background-color: rgb(245, 245, 245);
+    transform: scale(1.02);
 }
 
 .black-button-big:active{
@@ -500,6 +533,7 @@ body{
 }
 
 #alphabets-list{
+    margin-top:20px;
     list-style-type: none;
     list-style: none;
     margin-left: -40px!important;
@@ -517,6 +551,7 @@ body{
     position:inherit;
     margin-top: 100px;
     text-align: center;
+    opacity: 60%;
 }
 
 .sign-image-box{
@@ -543,4 +578,45 @@ body{
 
 .alphabet-name{
     text-align: center;
+}
+
+.tagline>h1{
+    text-align: left;
+    font-weight: 500;
+    margin: 30px 20px 30px 20px;
+    font-size: 45px;
+    font-family: 'Product Sans Medium';
+}
+
+.tagline>h5{
+    text-align: left;
+    margin: 40px 50px 50px 30px;
+    padding: 15px;
+    opacity: 80%;
+
+}
+
+.desc{
+    margin: 0px auto;
+    text-align: center;
+    max-width: 80%;
+}
+
+.desc>h1{
+    font-family: 'Product Sans Medium';
+    font-size: 55px;
+    margin-bottom: 30px;
+}
+
+.desc>p{
+    font-size: 22px;
+    margin-top: 50px;
+    height: fit-content;
+    opacity: 80%;
+    padding-bottom: 100px;
+    margin-bottom: -20px;
+}
+
+#preview{
+    margin-left: 20px;
 }
