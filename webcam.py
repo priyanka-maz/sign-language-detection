@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-TFLITE_PATH: str = "./models/model_efficientnet_v2s.tflite"
+TFLITE_PATH: str = "./models/model_mobilenet_v2.tflite"
 
 IMAGE_SIZE: tuple[int, int] = (160, 160)
 CLASS_NAMES: list[str] = [
@@ -17,7 +17,7 @@ CLASS_NAMES: list[str] = [
 
 TARGET_FRAME_COUNT: int = 3
 TARGET_CONSECUTIVE_PREDICTIONS: int = 4
-TARGET_PREDICTION_SCORE: float = 0.80
+TARGET_PREDICTION_SCORE: float = 0.92
 
 
 def load_model():
@@ -32,7 +32,7 @@ def get_image_array(image_data):
     return img_array
 
 
-def predict(image_array):
+def predict(classify_lite, image_array):
     score_lite = classify_lite(input_2=image_array)["outputs"]
 
     predicted_char = CLASS_NAMES[np.argmax(score_lite)]
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 image_data = Image.fromarray(img_cropped)
                 image_array = get_image_array(image_data)
 
-                predicted_char, prediction_score = predict(image_array)
+                predicted_char, prediction_score = predict(classify_lite, image_array)
 
                 if (
                     prediction_score >= TARGET_PREDICTION_SCORE
