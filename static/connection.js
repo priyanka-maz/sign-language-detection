@@ -87,8 +87,8 @@ function processVideo() {
    
 
     // Draw a rectangle on the destination image (dst)  
-    const rectStart = new cv.Point(video.width - 10, 10);
-    const rectEnd = new cv.Point(video.width - (10 + 160), (10 + 160));
+    const rectStart = new cv.Point(video.width - 100, 100);
+    const rectEnd = new cv.Point(video.width - (100 + 160), (100 + 160));
     const rectColor = new cv.Scalar(0, 255, 255); 
     const rectThickness = 2;
     cv.rectangle(dst, rectStart, rectEnd, rectColor, rectThickness, cv.LINE_8, 0);

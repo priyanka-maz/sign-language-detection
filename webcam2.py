@@ -49,14 +49,13 @@ def max_predicted(predictions: dict[str, int]) -> tuple[str, int]:
 def sign_detection(img):
     classify_lite = load_model()
 
-    x1, y1 = 10, 10
+    x1, y1 = 100, 100
     x2, y2 = (x1 + IMAGE_SIZE[0]), (y1 + IMAGE_SIZE[1])
 
     frame_count: int = 0
     previous_predictions: dict[str, int] = {letter: 0 for letter in CLASS_NAMES}
     text: str = ""
-
-    
+   
     img = cv2.flip(img, 1)
 
     predicted_char: str = ""

@@ -27,7 +27,7 @@ def image(data_image):
 
     ## converting RGB to BGR, as opencv standards
     frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
-     
+    
     #Detection
     frame, letter, prediction_score = sign_detection(frame) 
                                 
