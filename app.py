@@ -1,17 +1,18 @@
 import time
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import io
 import base64
 from PIL import Image
 import cv2
 import numpy as np
 from flask import Flask, render_template
+from webcam2 import *
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
-
+CORS(app, support_credentials=True)
 
 
 
@@ -25,16 +26,10 @@ def image(data_image):
     ## converting RGB to BGR, as opencv standards
     frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
     
-    
-    #                                    
-    #                                   
-    #   Your detection code goes here   #
-    #                                  
-    #                                  
+    img, text = sign_pred(frame, True)
     
     
-    
-    frame = cv2.putText(frame, 'CV', (220,190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0) , 2, cv2.LINE_AA)
+    frame = cv2.putText(img, 'CV', (220,190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0) , 2, cv2.LINE_AA)
     
      # Encode the frame as base64 string
     retval, buffer = cv2.imencode('.jpg', frame)
@@ -46,7 +41,6 @@ def image(data_image):
 
 @app.route('/detect', methods=['POST', 'GET'])
 def detect():
-
     return render_template('index.html')
 
 

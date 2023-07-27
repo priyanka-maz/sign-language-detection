@@ -3,8 +3,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="frontend\static\love-hand-l-fav.png" alt="Logo" width="80" height="80">
-    <h3 align="center">Echo Sign</h3>
+    <img src="static\love-hand-l-fav.png" alt="Logo" width="80" height="80">
+    <h3 align="center">Helen</h3>
 </div>
 
 ## Setup using Python virtual environment
