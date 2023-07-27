@@ -1,13 +1,17 @@
 absl-py==1.4.0
 astunparse==1.6.3
+blinker==1.6.2
 cachetools==5.3.1
 certifi==2023.5.7
 charset-normalizer==3.2.0
+click==8.1.6
 contourpy==1.1.0
 cycler==0.11.0
+Flask==2.3.2
+Flask-Cors==4.0.0
+Flask-SocketIO==4.3.1
 flatbuffers==23.5.26
 fonttools==4.41.0
-Flask-SocketIO==4.3.1
 gast==0.4.0
 google-auth==2.22.0
 google-auth-oauthlib==1.0.0
@@ -15,6 +19,8 @@ google-pasta==0.2.0
 grpcio==1.56.2
 h5py==3.9.0
 idna==3.4
+itsdangerous==2.1.2
+Jinja2==3.1.2
 keras==2.13.1
 kiwisolver==1.4.4
 libclang==16.0.6
