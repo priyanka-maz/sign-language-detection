@@ -58,8 +58,8 @@ function stopVideoCapture() {
 
 
 //Control webcam capture and sending quality and aspect ratio
-video.width = 266; 
-video.height = 200; 
+video.width = 533; 
+video.height = 400; 
 
 //FPS, rate at which the video frames are sent
 const FPS = 200;
@@ -84,6 +84,15 @@ function processVideo() {
     let begin = Date.now();
     cap.read(src);
     src.copyTo(dst);
+   
+
+    // Draw a rectangle on the destination image (dst)  
+    const rectStart = new cv.Point(video.width - 10, 10);
+    const rectEnd = new cv.Point(video.width - (10 + 160), (10 + 160));
+    const rectColor = new cv.Scalar(0, 255, 255); 
+    const rectThickness = 2;
+    cv.rectangle(dst, rectStart, rectEnd, rectColor, rectThickness, cv.LINE_8, 0);
+
     if(!record)
     {
         cv.imshow("canvasOutput", dst);
@@ -114,11 +123,12 @@ var a = setInterval(() => {
 
 var preview_container = document.getElementById("preview2-container");
 var img = document.getElementById("preview")
+var live_letter = document.getElementById("live-letter");
+var confidence = document.getElementById("confidence");
 
 
-
-// Listen and receive 'processed_frame' from Flask Server
-socket.on('processed_frame', function(frameData) {
+// Listen and receive data from Flask Server
+socket.on('processed_frame', function(data) {
 
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -126,10 +136,17 @@ socket.on('processed_frame', function(frameData) {
     img.width = 300;
      
     // Decode the base64 encoded frame data into an image
-    img.src = 'data:image/jpeg;base64,' + frameData;
+    img.src = 'data:image/jpeg;base64,' + data.frame;
 
+    var score = (parseFloat(data.prediction_score)*100).toFixed(2);
+    if(score > 90)
+        confidence.style.color = 'green';
+    else
+        confidence.style.color = 'black';
 
     console.log((Date.now()/1000).toFixed());
+    live_letter.innerHTML = data.letter;
+    confidence.innerHTML =  score + '%';
 
   });
 

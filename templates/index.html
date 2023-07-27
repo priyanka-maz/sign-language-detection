@@ -4,7 +4,10 @@
 <head>
     <link rel="icon" href="static/love-hand-l.png">
 
-    <title>Sign Language Detection</title>   
+    <title>Sign Language Detection</title>
+
+
+   
     
 </head>
     <body>
@@ -22,7 +25,9 @@
        </script>
    
 
-        <div id="container">   
+        <div id="container">
+            
+                
 
                 <video autoplay="true" id="videoElement" style="display:none;"></video>
 
@@ -37,6 +42,16 @@
                         <div class="card camera-part">
                             <!--In canvas-->
                             <canvas id="canvasOutput" style="transform:scaleX(-1);"></canvas>
+                            <div class="prediction">
+                                <div class="row">
+                                    <div class="col">
+                                        <p id="live-letter"></p>
+                                    </div>
+                                    <div class="col">
+                                        <p id="confidence"></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl">
@@ -73,7 +88,7 @@
                             </div>
 
                             <i class="fa-solid fa-chevron-right"></i>
-                            <textarea class="interpreted-text" id="interpreted-text" rows=10 placeholder="ASL detected letters will show here"></textarea>
+                            <textarea class="interpreted-text" id="interpreted-text" rows=10 placeholder="sudo yum lemme bang yo mum"></textarea>
                             
                         </div>
                         <input type="text" id="test-input" onkeyup="consoleWrite()" hidden>

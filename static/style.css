@@ -139,9 +139,9 @@ body{
 
 }
 
-.emotion{
+.prediction{
     border-radius: 30px;
-    color: rgba(0, 0, 0, 0.378);
+    opacity: 70%;
     min-width: 150px;
     margin-top: 20px;
     font-size: 40px;
@@ -619,4 +619,8 @@ body{
 
 #preview{
     margin-left: 20px;
+}
+
+#prediction{
+
 }
