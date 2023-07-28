@@ -50,6 +50,9 @@ def detect():
 
     return render_template('index.html')
 
+@app.route('/about', methods=['POST', 'GET'])
+def about():
+    return render_template('about.html')
 
 @app.route('/', methods=['POST', 'GET'])
 def landing():
