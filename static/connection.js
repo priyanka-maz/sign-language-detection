@@ -87,8 +87,8 @@ function processVideo() {
    
 
     // Draw a rectangle on the destination image (dst)  
-    const rectStart = new cv.Point(video.width - 100, 100);
-    const rectEnd = new cv.Point(video.width - (100 + 160), (100 + 160));
+    const rectStart = new cv.Point(video.width - 10, 10);
+    const rectEnd = new cv.Point(video.width - (10 + 160), (10 + 160));
     const rectColor = new cv.Scalar(0, 255, 255); 
     const rectThickness = 2;
     cv.rectangle(dst, rectStart, rectEnd, rectColor, rectThickness, cv.LINE_8, 0);
@@ -125,7 +125,7 @@ var preview_container = document.getElementById("preview2-container");
 var img = document.getElementById("preview")
 var live_letter = document.getElementById("live-letter");
 var confidence = document.getElementById("confidence");
-var interpreted_text = document.getElementById("interpreted-text");
+
 
 // Listen and receive data from Flask Server
 socket.on('processed_frame', function(data) {
@@ -139,15 +139,8 @@ socket.on('processed_frame', function(data) {
     img.src = 'data:image/jpeg;base64,' + data.frame;
 
     var score = (parseFloat(data.prediction_score)*100).toFixed(2);
-    if(score > 98){
+    if(score > 90)
         confidence.style.color = 'green';
-        if (data.letter == "space")
-            interpreted_text.innerHTML += " "
-        else if (data.letter == "del")
-        interpreted_text.innerHTML = interpreted_text.innerHTML.slice(0, -1);
-        else
-            interpreted_text.innerHTML += data.letter;
-    }
     else
         confidence.style.color = 'black';
 

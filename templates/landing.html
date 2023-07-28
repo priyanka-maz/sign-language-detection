@@ -15,13 +15,19 @@
             var pageBottom = pageTop + $(window).height();
             var tags = $(".appear");
             for (var i = 0; i < tags.length; i++) {
+
               var tag = tags[i];
-              if ($(tag).position().top.toFixed(0) < pageBottom) {
+
+              var height = parseInt($(tag).offset().top) + parseInt($(tag).outerHeight(true).toFixed(0));
+
+			  if ($(tag).position().top < pageBottom-2300) 
+              {
                 $(tag).addClass("visible");
-    
-    
-              } else  {
+              } 
+              else
+              {
                 $(tag).removeClass("visible");
+
               }
             }
           }
@@ -31,12 +37,9 @@
 </head>
     <body>
 
-        <div id="container">
+        <div id="landing-container">
             
                 
-
-                <video autoplay="true" id="videoElement" style="display:none;"></video>
-
                 
 
                 <div class="block block-1">
@@ -48,7 +51,11 @@
                                 <video autoplay muted loop width="100%">
                                     <source src="{{url_for('static', filename='Hand Motion.mp4')}}" >
                                 </video>
-                            </div>                       
+                            </div>    
+                            <div class="down-button" id="about-asl">
+                                <i class="fa-solid fa-arrow-down"></i>&nbsp;&nbsp;About ASL
+                            </div>
+                   
                          </div>
                         <div class="col-md text-center my-lg-5">
                             <div class="tagline">
@@ -61,7 +68,7 @@
                                 </h5>
                             </div>
                             <a href="/detect" class="no-decoration">
-                                <div class="black-button-big">Start&nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i></div>
+                                <div class="black-button-big">Start&nbsp;<i class="fa-solid fa-arrow-right"></i></div>
                             </a>
                             
                         </div>
@@ -77,31 +84,57 @@
                             ASL is a visual-gestural language with its own grammar and syntax, and it is not based on spoken English. 
                             Although there are other sign languages, ASL is the most popular sign language. It has its own unique vocabulary and cultural aspects.   
                             <br>
+                            <br>
                             ASL relies on handshapes, movements, facial expressions, and body postures to convey meaning. It is a rich and expressive language that allows for complex communication, including storytelling, discussions, and emotional expression
                             <br>
                             As a visual language, ASL has also gained popularity as a means of communication for individuals with certain language and communication disorders and for people seeking an alternative mode of communication.
                             <br>
+                            <br>
                             This website is capable of recognizing ASL English alphabets.
                         </p>
+                       
                     </div>
+                    <div class="desc appear">
+                        <div class="row">
+                            <div class="col-md my-auto">
+                                <h2>ASL Alphabets</h2>
+                                <p>These are ASL hand gestures that represent English alphabets. 
+                                    Do note that there are variations for some of the gestures. 
+                                    
+                                </p>
+                                <div class="down-button" id="english-asl">
+                                    <i class="fa-solid fa-arrow-down"></i>&nbsp;&nbsp;English to ASL Converter
+                                </div>                           
+                             </div>
+                            <div class="col-md my-auto">
+                                <img src="{{url_for('static', filename='ASLchart.png')}}" class="flex-img rounded-5" width="100%">
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
                 </div>
                 
 
                 <div class="block block-3">
                     <div class="header-spacing"></div>
-                    <br>
-                    <br>
-                    <div class="row w-100 mx-auto">
+                   
+                    <h1 class="asl-converter-heading">English to ASL converter</h1>
+
+                    
+                    <div class="row w-100 mx-auto appear">
                        
                         <div class="col-lg text-center my-auto">
                             <div class="sign-image-container">
+                                
                                 <div class="title-bar border border-bottom border-dark">
                                     <p class="align-middle">Console</p>
     
                                     <div class="button-yellow"></div>
     
                                     <div class="button-green"  title="Nothing here"></div>
-                                    <div class="button-red" onclick="DeleteAll()" title="Click to erase all deafs and mutes"></div>
+                                    <div class="button-red" onclick="DeleteAll()" title="Click to erase all"></div>
                                     
                                 </div>
                                
@@ -128,7 +161,6 @@
                 </div>
         </div>
 
-        <script src="dist/long-press.min.js"></script>
 
         
 <script>
@@ -191,6 +223,17 @@
             image_container.innerHTML = '<h2 class="text-sign">Get sign for your sentences.</h2>';
     
             
+    });
+
+    var blocks = document.getElementsByClassName("block");
+    document.getElementById("about-asl").addEventListener("click", function(e) {
+        var b = $(".block");
+        blocks[1].scrollIntoView();
+    });
+
+    document.getElementById("english-asl").addEventListener("click", function(e) {
+        var b = $(".block");
+        blocks[2].scrollIntoView();
     });
 
 
