@@ -62,7 +62,7 @@ video.width = 533;
 video.height = 400; 
 
 //FPS, rate at which the video frames are sent
-const FPS = 200;
+const FPS = 60;
 
 
 
@@ -127,6 +127,8 @@ var live_letter = document.getElementById("live-letter");
 var confidence = document.getElementById("confidence");
 var interpreted_text = document.getElementById("interpreted-text");
 
+var letter_counter = 0;
+var previous_letter = '';
 
 // Listen and receive data from Flask Server
 socket.on('processed_frame', function(data) {
@@ -140,19 +142,40 @@ socket.on('processed_frame', function(data) {
     img.src = 'data:image/jpeg;base64,' + data.frame;
 
     var score = (parseFloat(data.prediction_score)*100).toFixed(2);
-    if(score > 98){
-        confidence.style.color = 'green';
-        if (data.letter == "space")
-            interpreted_text.innerHTML += " ";
-        else if (data.letter == "del")
-            interpreted_text.innerHTML = interpreted_text.innerHTML.slice(0, -1);
-        else
-            interpreted_text.innerHTML += data.letter;
-        }
-    else
-        confidence.style.color = 'black';
 
-    console.log((Date.now()/1000).toFixed());
+
+    if(score > 90)
+    {
+        confidence.style.color = 'green';
+        if(previous_letter == data.letter)
+        {
+            letter_counter++;
+        }
+        else
+        {
+            letter_counter=0;
+        }
+        
+        //change the consecutive occuring of the letter
+        if(letter_counter > 5)
+        {
+            if (previous_letter == "space")
+                interpreted_text.innerHTML += " ";
+            else if (previous_letter == "del")
+                interpreted_text.innerHTML = interpreted_text.innerHTML.slice(0, -1);
+            else
+                interpreted_text.innerHTML += previous_letter;
+            
+                letter_counter = 0;
+        }
+
+        previous_letter = data.letter;
+    }
+    else
+    {
+        confidence.style.color = 'black';
+    }
+
     live_letter.innerHTML = data.letter;
     confidence.innerHTML =  score + '%';
 
