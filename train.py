@@ -18,6 +18,8 @@ DATASET_DIR = pathlib.Path(
 CHECKPOINT_PATH: str = "./checkpoint/"
 TFLITE_FNAME: str = "model.tflite"
 
+MODEL_DIAGRAM_PATH: str = "/tmp/"
+
 BATCH_SIZE: int = 64
 IMAGE_SIZE: tuple[int, int] = (160, 160)
 IMAGE_SHAPE: tuple[int, int, int] = IMAGE_SIZE + (3,)
@@ -79,6 +81,9 @@ def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
         weights="imagenet",
         pooling="avg",
     )
+    tf.keras.utils.plot_model(
+        base_model, to_file=MODEL_DIAGRAM_PATH + "base_model.png", show_shapes=True
+    )
     base_model.trainable = False
 
     data_augmentation: tf.keras.Sequential = tf.keras.Sequential(
@@ -108,6 +113,9 @@ def build_model(num_classes: int) -> tuple[tf.keras.Model, tf.keras.Model]:
         name="outputs",
     )(x)
     model: tf.keras.Model = tf.keras.Model(inputs, outputs)
+    tf.keras.utils.plot_model(
+        model, to_file=MODEL_DIAGRAM_PATH + "fine_tune_model.png", show_shapes=True
+    )
 
     lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
         BASE_LEARNING_RATE,
