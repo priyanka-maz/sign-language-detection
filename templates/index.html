@@ -4,7 +4,7 @@
 <head>
     <link rel="icon" href="static/love-hand-l.png">
 
-    <title>Sign Language Detection</title>
+    <title>EchoSign - Detection</title>
 
 
    
@@ -57,11 +57,12 @@
                     <div class="col-xl">
                         <div class="card text-window">
                             <div class="title-bar">
+                                <i class="fa-solid fa-gear fa-lg"  onclick="Settings(this)" title="click for settings"></i>
                                 <p class="align-middle">Console</p>
 
                                 <div class="button-yellow"></div>
 
-                                <div class="button-green" onclick="Settings()" title="click for settings"></div>
+                                <div class="button-green"></div>
                                 <div class="button-red" onclick="RecordButton()" title="click to turn off camera"></div>
                                
                                 <div class="range-slider-container" id="settings">
@@ -144,12 +145,18 @@
             textarea.value = text.value;
         }
 
-        function Settings(){
+        function Settings(e){
             var settings = document.getElementById('settings');
             if(settings.style.display == 'none' || settings.style.display =='')
+            {
+                e.style.transform = 'rotate(20deg)';
                 settings.style.display ='block';
+            }
             else
+            {
+                e.style.transform = 'rotate(-20deg)';
                 settings.style.display = 'none';
+            }
         }
 
 

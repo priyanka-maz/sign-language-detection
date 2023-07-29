@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block content %}
+<html style="scroll-snap-type: y mandatory;">
+<head>
+    <link rel="icon" href="static/love-hand-l.png">
+
+    <title>About - EchoSign</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    <script>
+        window.addEventListener("scroll", scroll);
+        function scroll() {
+
+            var pageBottom = window.scrollY + window.screen.height;
+            var tags = $(".appear");
+            var elements = document.getElementsByClassName("appear");
+            for (var i = 0; i < tags.length; i++) {
+
+              var tag = tags[i];
+
+			  if (elements[i].offsetTop < pageBottom-100) 
+              {
+                $(tag).addClass("visible");
+              } 
+              else
+              {
+                $(tag).removeClass("visible");
+
+              }
+            }
+          }
+        </script>
+
+    
+</head>
+    <body>
+
+        <div class="about-block-1">
+            <div class="header-spacing"></div>
+
+                <div class="row w-100 my-auto mx-auto fade-up">
+                    <div class="col-md my-5">
+                        <div class="desc-about">
+                        <h1>About Us</h1>
+                        <p>
+                            Welcome to our innovative and inclusive website! At EchoSign, we are a dynamic and diverse team of five passionate individuals dedicated to the fields of data science and machine learning. 
+                            Our mission is to break barriers and bridge gaps through technology, making information and communication accessible to everyone, including those who use sign languages.
+                        </p>
+                    </div>
+                    </div>
+                    <div class="col-md my-auto mx-auto">
+                        <img src="static/team/grp pic.png" class="img-fluid about-img" width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-block-2">
+            <div class="header-spacing"></div>
+
+            <div class="row w-100 my-auto mx-auto appear">
+               
+                <div class="col-md my-auto mx-auto">
+                    <img src="static/vision.jpg" class="img-fluid about-img" width="100%">
+                </div>
+
+                <div class="col-md my-5">
+                    <div class="desc-about">
+                    <h1>Our Vision</h1>
+                    <p>
+                        Our vision is to create a world where language is no longer a barrier. We believe that technology has the power to revolutionize the way we communicate and interact, and we are committed to harnessing that potential to empower individuals from all walks of life.
+
+                    </div>
+               
+                </div>
+            </div>
+        </div>
+
+        <div class="about-block-3">
+            <div class="header-spacing"></div>
+            <div class="desc-about appear">
+                <h1>Our Team</h1>
+               
+            </div>
+            <div class="member-container appear">
+                <div class="member">
+                    <img src="static/team/coyote.jpg">
+                    <h1>Prateek Ganguli</h1>
+                    <p>I do Linux and modelling<br>&nbsp;</p>
+                </div>
+                <div class="member">
+                    <img src="static/team/anindya.jpg">
+                    <h1>Anindya Biswas</h1>
+                    <p>I'm optimistic about AI and its capabilities. Love UI/UX</p>
+                </div>
+                <div class="member">
+                    <img src="static/team/priyanka.jpg">
+                    <h1>Priyanka Mazumdar</h1>
+                    <p>Lemme ask chatGPT about me<br>&nbsp;</p>
+                </div>
+                <div class="member">
+                    <img src="static/team/aninass.jpg">
+                    <h1>Anirban Naskar</h1>
+                    <p>I am a certified kids lover<br>&nbsp;</p>
+                </div>
+                <div class="member">
+                    <img src="static/team/aritra.jpg">
+                    <h1>Aritra Mandal</h1>
+                    <p>Henlo frens myself Aritra.<br>&nbsp;</p>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </body>
+
+
+    {% endblock %}
+    
+
+</html>

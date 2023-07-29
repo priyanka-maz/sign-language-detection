@@ -155,16 +155,16 @@ socket.on('processed_frame', function(data) {
         {
             letter_counter=0;
         }
-        
+
         //change the consecutive occuring of the letter
         if(letter_counter > 5)
         {
             if (previous_letter == "space")
-                interpreted_text.innerHTML += " ";
+                interpreted_text.value += " ";
             else if (previous_letter == "del")
-                interpreted_text.innerHTML = interpreted_text.innerHTML.slice(0, -1);
+                interpreted_text.value = interpreted_text.innerHTML.slice(0, -1);
             else
-                interpreted_text.innerHTML += previous_letter;
+                interpreted_text.value += previous_letter;
             
                 letter_counter = 0;
         }

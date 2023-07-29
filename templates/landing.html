@@ -4,23 +4,22 @@
 <head>
     <link rel="icon" href="static/love-hand-l.png">
 
-    <title>Sign Language Detection</title>
+    <title>EchoSign</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     
     <script>
         window.addEventListener("scroll", scroll);
         function scroll() {
-            var pageTop = $(document).scrollTop();
-            var pageBottom = pageTop + $(window).height();
+
+            var pageBottom = window.scrollY + window.screen.height;
             var tags = $(".appear");
+            var elements = document.getElementsByClassName("appear");
             for (var i = 0; i < tags.length; i++) {
 
               var tag = tags[i];
 
-              var height = parseInt($(tag).offset().top) + parseInt($(tag).outerHeight(true).toFixed(0));
-
-			  if ($(tag).position().top < pageBottom-2300) 
+			  if (elements[i].offsetTop < pageBottom-100) 
               {
                 $(tag).addClass("visible");
               } 
@@ -37,7 +36,6 @@
 </head>
     <body>
 
-        <div id="landing-container">
             
                 
                 
@@ -159,7 +157,6 @@
                         </div>
                     
                 </div>
-        </div>
 
 
         
