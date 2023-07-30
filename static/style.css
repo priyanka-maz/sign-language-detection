@@ -1,12 +1,11 @@
-@import url('https://fonts.cdnfonts.com/css/google-sans');
 
 @import url('https://fonts.googleapis.com/css?family=PT+Sans');
 
 @import url('https://db.onlinewebfonts.com/c/0210e8c7a07c76189f47127049f61dd5?family=Pixeloid+Sans');
 
-@import url('https://fonts.googleapis.com/css?family=VT323');
+@import url('https://db.onlinewebfonts.com/c/d5075ebf15c6a1d89e8ed3e20d1c4d7b?family=Product+Sans+Medium');
 
-
+@import url('https://db.onlinewebfonts.com/c/3fc5c57cfac020b6611b4b2a985671b0?family=Product+Sans+Black');
 
 
     @keyframes fadeIn {
@@ -26,6 +25,13 @@
             transform: translate(0, 0); }
       }
 
+      @font-face {
+        font-family: 'Product Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+      }
+
     .fade-in{
         animation: fadeIn 1s;
     }
@@ -38,7 +44,12 @@
     }
 
     .font{
-        font-family: "Product Sans";
+        font-family: "Product Sans",sans-serif;
+    }
+
+    p{
+        font-family: 'Product Sans',sans-serif;
+
     }
 
 
@@ -359,11 +370,14 @@ body{
 }
 
 .range-slider-container h3{
-    font-family: 'Product Sans Black', sans-serif;
+    font-family: "Product Sans";
     text-align: left;
     margin-top: 10px;
     margin-bottom: 5px;
     opacity: 70%;
+    font-weight: bold;
+    letter-spacing:0.3px;
+    
 }
 
 .range-slider-container>.row{
@@ -376,12 +390,13 @@ body{
 }
 
 .range-slider-container span{
-    font-family: 'Product Sans Black', sans-serif;
+    font-family: 'Product Sans', sans-serif;
     font-size: 18px!important;
     opacity: 80%;
     background-color: rgb(172, 205, 255);
     padding: 5px;
     border-radius: 10px;
+    font-weight: bold;
     
 }
 
