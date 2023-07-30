@@ -1,3 +1,2 @@
-src/dataset
-src/logs/imagenet
-src/logs/retrain_logs
+*.pycache
+*.pyc

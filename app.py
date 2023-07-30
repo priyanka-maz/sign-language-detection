@@ -8,7 +8,7 @@ from PIL import Image
 import cv2
 import numpy as np
 from flask import Flask, render_template
-from webcam2 import *
+from webcam_detect import sign_detection
 
 
 

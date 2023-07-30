@@ -2,8 +2,9 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+import os
 
-TFLITE_PATH: str = "./models/model_mobilenet_v2.tflite"
+TFLITE_PATH: str = os.path.join(os.path.dirname(os.path.realpath(__file__)), "models", "model_mobilenet_v2.tflite")
 
 IMAGE_SIZE: tuple[int, int] = (160, 160)
 CLASS_NAMES: list[str] = [
@@ -52,7 +53,6 @@ def sign_detection(img):
     x1, y1 = 100, 100
     x2, y2 = (x1 + IMAGE_SIZE[0]), (y1 + IMAGE_SIZE[1])
 
-    frame_count: int = 0
     previous_predictions: dict[str, int] = {letter: 0 for letter in CLASS_NAMES}
     text: str = ""
    

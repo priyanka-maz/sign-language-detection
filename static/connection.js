@@ -162,7 +162,7 @@ socket.on('processed_frame', function(data) {
             if (previous_letter == "space")
                 interpreted_text.value += " ";
             else if (previous_letter == "del")
-                interpreted_text.value = interpreted_text.innerHTML.slice(0, -1);
+                interpreted_text.value = interpreted_text.value.slice(0, -1);
             else
                 interpreted_text.value += previous_letter;
             
