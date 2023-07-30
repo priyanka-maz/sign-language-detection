@@ -121,6 +121,12 @@ var a = setInterval(() => {
     }
 }, 10000/FPS);
 
+//Consecutive Acceptance Rate - takes consecutive detection of same character as one. 
+var CAR = 5;
+
+//The confidence score in percentage after which a character is displayed on the console.
+var DETECTION_THRESHOLD = 90;
+
 var img = document.getElementById("preview")
 var live_letter = document.getElementById("live-letter");
 var confidence = document.getElementById("confidence");
@@ -142,7 +148,8 @@ socket.on('processed_frame', function(data) {
     var score = (parseFloat(data.prediction_score)*100).toFixed(2);
 
 
-    if(score > 90)
+
+    if(score >= parseInt(DETECTION_THRESHOLD))
     {
         confidence.style.color = 'green';
         if(previous_letter == data.letter)
@@ -155,7 +162,7 @@ socket.on('processed_frame', function(data) {
         }
 
         //change the consecutive occuring of the letter
-        if(letter_counter > 5)
+        if(letter_counter > parseInt(CAR))
         {
             if (previous_letter == "space")
                 interpreted_text.value += " ";
@@ -179,4 +186,20 @@ socket.on('processed_frame', function(data) {
 
   });
 
+
+  var car = document.getElementById('car');
+  var threshold = document.getElementById('threshold');
+
+
+  //Get CAR value
+  car.addEventListener('change', function(){
+    document.getElementById('car-value').innerHTML = car.value;
+    CAR = car.value;
+  });
+
+  //Get DETECTION_THRESHOLD value
+  threshold.addEventListener('change', function(){
+    document.getElementById('threshold-value').innerHTML = threshold.value + "%";
+    DETECTION_THRESHOLD = threshold.value;
+  });
 

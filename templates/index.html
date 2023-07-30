@@ -25,11 +25,11 @@
 
         
         //Tips
-        var allTips = ["You can change the Text-to-Speech voice and rate by clicking on the gear icon on the console.",
+        var allTips = ["You can change the Text-to-Speech voice, rate and other settings by clicking on the gear icon on the console.",
         "To get English Alphabet to ASL <a href='/#English2ASL' target='_blank' >click here</a>.",
         "Place your hand gesture in the white box for detection.", "To know more about American Sign Language <a href='/#AboutASL' target='_blank' >click here</a>.",
-        "You can turn off the camera access by clicking on the red button on the console.", "You can see what the backend in OpenCV is seeing by clicking on the green button.",
-        "Make sure you are in a well lit environment."]
+        "Need Privacy? Turn off the camera access by clicking on the red button on the console.", "You can see what the backend in OpenCV is seeing by clicking on the green button.",
+        "Make sure you are in a well lit environment.", "Hover over the settings parameters to know more about them."]
             
         document.addEventListener("DOMContentLoaded", function(){
             
@@ -100,22 +100,46 @@
                                 <div class="button-red" onclick="RecordButton()" title="Click to turn off camera"></div>
                                
                                 <div class="range-slider-container" id="settings">
-
+                                    
                                     <div class="row">
-                                        <div class="col-1">
-                                            <label for="voiceSelect" class="form-label">Voices</label>
+                                        <div class="col-md-6">
+                                            <label for="car" class="form-label" title="Takes consecutive detection of same character as one. Recommended : 5 ">Consecutive Acceptance Rate : </label>
+                                            <span id="car-value">5</span>
                                         </div>
-                                        <div class="col">
-                                            <select id="voiceSelect" class="form-select"></select>
+                                        <div class="col-md">
+                                        <input type="range" class="form-range" min="3" max="7" value="5" step="1" id="car" title="Takes consecutive detection of same character as one. Recommended : 5 "/>
+
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-1">
-                                            <label for="rate" class="form-label">Rate</label>
+                                        <div class="col-md-6">
+                                            <label for="threshold" class="form-label" title="The detection confidence in percentage after which a character is displayed on the console. Recommended : 90% ">Acceptance Threshold : </label>
+                                            <span id="threshold-value">90%</span>
                                         </div>
-                                        <div class="col">
-                                        <input type="range" class="form-range" min="0" max="2" value="1" step="0.1" id="rate"/>
+                                        <div class="col-md">
+                                        <input type="range" class="form-range" min="88" max="100" value="90" step="1" id="threshold" title="The detection confidence in percentage after which a character is displayed on the console. Recommended : 90% "/>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="voiceSelect" class="form-label" title="Select your desired speaker voice.">Speech Voices</label>
+                                        </div>
+                                        <div class="col-md">
+                                            <select id="voiceSelect" class="form-select"  title="Select your desired speaker voice."></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="rate" class="form-label" title="How fast the speaker talks. Recommended : 1 ">Rate of Speech : </label>
+                                            <span id="rate-value">1</span>
+
+                                        </div>
+                                        <div class="col-md">
+                                        <input type="range" class="form-range" min="0" max="2" value="1" step="0.1" id="rate" title="How fast the speaker talks. Recommended : 1 "/>
                                         </div>
                                     </div>
                                   
@@ -126,7 +150,6 @@
                             <textarea class="interpreted-text" id="interpreted-text" rows=10 placeholder="Interpreted Text Shows Up Here"></textarea>
                             
                         </div>
-                        <input type="text" id="test-input" onkeyup="consoleWrite()" hidden>
                         <div class="button-container">
                             <div class="row">
                                 <div class="col">
@@ -189,19 +212,7 @@
 
     <script>
      
-
-        function About(){
-            var about = document.getElementById('about');
-
-            about.scrollIntoView();
-        }
-
-        function consoleWrite(){
-            var text = document.getElementById('test-input');
-            var textarea = document.getElementById('interpreted-text'); 
-            textarea.value = text.value;
-        }
-
+        //Settings toggle
         function Settings(e){
             var settings = document.getElementById('settings');
             if(settings.style.display == 'none' || settings.style.display =='')
@@ -221,8 +232,8 @@
     </script>
         
     <script>
+        //Text to Speech
         let synth = window.speechSynthesis;
-
         var speak_button = document.getElementById("speak");
         var delete_button = document.getElementById("delete");
         var stop_audio = document.getElementById("stop-audio");
@@ -231,6 +242,11 @@
         var voice_option = document.getElementById("voiceSelect");
 
 
+        rate.addEventListener("change", function(){
+            document.getElementById("rate-value").innerHTML = rate.value;
+        });
+
+        //Start Speech
         speak_button.addEventListener("click", () =>{
             
             const utterance = new SpeechSynthesisUtterance(document.getElementById("interpreted-text").value);
@@ -238,11 +254,9 @@
             const voices = speechSynthesis.getVoices();
 
             utterance.voice = voices[voice_option.selectedIndex];
-            console.log(voices[voice_option.selectedIndex]);
 
             stop_audio.style.display = "inline";
             synth.speak(utterance);
-            console.log("start");
             const interval = setInterval(() => {
                 speak_button.innerHTML = '<i class="fa-solid fa-play fa-fade"></i>&nbsp;&nbsp;Playin...';
 
@@ -256,13 +270,12 @@
 
         });
 
-        
+        //End Speech
         stop_audio.addEventListener("click", () =>{
             synth.cancel();
-            console.log("cancel");
         });
 
-
+        //Get available voices
         function populateVoiceList() {
             if (typeof speechSynthesis === "undefined") {
               return;
@@ -295,19 +308,19 @@
           }
           
 
-
+        //Delete the text in the console window
         function DeleteText()
         {
             document.getElementById("interpreted-text").value='';
         }
 
-
+        //Toggle the Backend OpenCV view
         function ShowBackend(){
             var preview = document.getElementById("preview-container");
 
             if(preview.style.display == '' || preview.style.display =='none') {
                 preview.style.display="block";
-
+                speak_button.scrollIntoView();
             }
             else
             {

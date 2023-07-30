@@ -362,8 +362,12 @@ body{
     margin-bottom: 20px;
 }
 
-#rate{
-   width: 85%;
+.range-slider-container .col-md-6{
+    text-align: left;
+}
+
+.form-range{
+   width: 95%;
    
 }
 
@@ -522,7 +526,7 @@ body{
 
 
 .black-button-big{
-    font-family: 'Pixeloid Sans';
+    font-family: 'Pixeloid Sans', sans-serif;
     width: fit-content;
     border-radius: 50px;
     margin: 0 auto;
@@ -769,10 +773,19 @@ body{
     margin-bottom: -20px;
     list-style-type: none;
     display: inline-block;
+    text-align: left;
+}
+
+.desc-about li{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .desc-about a{
     color: black;
+}
+.desc-about a:hover{
+    color: rgba(0, 0, 0, 0.753);
 }
 
 .about-img{
