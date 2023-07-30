@@ -37,7 +37,9 @@ python3 app.py
 
 ## Screenshots / Videos
 
-![Live ASL Detection](screenshots/7.Live_ASL_detection_TTS.mp4)
+This gif shows ASL sign detetcion and recognition of the class which is written as interpreted text. To hear the text-to-speech, navigate to [Live_ASL_detection_TTS.mp4](https://github.com/priyanka-maz/sign-language-detection/tree/02d1380cf65be57c157e2614124518a20ca95989/screenshots)
+
+![8 Live_ASL_detection_TTS](https://github.com/priyanka-maz/sign-language-detection/assets/117285303/ef9f2935-335e-4b04-8229-5a50e815e0b3)
 ![HomePage](screenshots/1.Homepage.png)
 ![Info about ASL](screenshots/2.Homepage_ASL.png)
 ![ASL alphabets clipart](screenshots/3.Home_asl_alphabets.png)
@@ -48,7 +50,7 @@ python3 app.py
 ![Our Vision](screenshots/10.Vision.png)
 ![Our Team](screenshots/11.Team.png)
 
-## Features <img src="static\asl-interpreter-services.png" alt="Logo" width="30" height="30">
+## Features <img src="static\asl-interpreter-services.png" alt="(asl-support-inclusive)" width="30" height="30">
 
 - This website was developed using Python, Flask, HTML, CSS & Javascript.
 - Users who wish to converse in ASL, may use this detection system to convert the interpreted text to speech for communicating without bounds.
