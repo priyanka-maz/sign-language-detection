@@ -5,7 +5,7 @@
 <div align="center">
     <img src="static\love-hand-l-fav.png" alt="Logo" width="80" height="80">
     <h3 align="center">EchoSign</h3>
-    <img src="screenshots/8.Live_ASL_detection_TTS.gif" alt="Working Gif">
+    <img src="screenshots/8.Live_ASL_detection_TTS.gif" alt="Working Gif" height="480">
     <p>This gif shows ASL sign detetcion and recognition of the class which is written as interpreted text.<br>To hear the text-to-speech, navigate to <a href="https://github.com/priyanka-maz/sign-language-detection/tree/02d1380cf65be57c157e2614124518a20ca95989/screenshots">Live_ASL_detection_TTS.mp4</a></p>
 </div>
 
