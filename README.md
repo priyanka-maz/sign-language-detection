@@ -5,6 +5,8 @@
 <div align="center">
     <img src="static\love-hand-l-fav.png" alt="Logo" width="80" height="80">
     <h3 align="center">EchoSign</h3>
+    <img src="screenshots/8.Live_ASL_detection_TTS.gif" alt="Working Gif">
+    <p>This gif shows ASL sign detetcion and recognition of the class which is written as interpreted text.<br>To hear the text-to-speech, navigate to <a href="https://github.com/priyanka-maz/sign-language-detection/tree/02d1380cf65be57c157e2614124518a20ca95989/screenshots">Live_ASL_detection_TTS.mp4</a></p>
 </div>
 
 ## Setup using Python virtual environment
@@ -35,11 +37,8 @@ python3 app.py
 
 - Follow instructions under console for further instructions
 
-## Screenshots / Videos
+## Screenshots
 
-This gif shows ASL sign detetcion and recognition of the class which is written as interpreted text. To hear the text-to-speech, navigate to [Live_ASL_detection_TTS.mp4](https://github.com/priyanka-maz/sign-language-detection/tree/02d1380cf65be57c157e2614124518a20ca95989/screenshots)
-
-![8 Live_ASL_detection_TTS](https://github.com/priyanka-maz/sign-language-detection/assets/117285303/ef9f2935-335e-4b04-8229-5a50e815e0b3)
 ![HomePage](screenshots/1.Homepage.png)
 ![Info about ASL](screenshots/2.Homepage_ASL.png)
 ![ASL alphabets clipart](screenshots/3.Home_asl_alphabets.png)
