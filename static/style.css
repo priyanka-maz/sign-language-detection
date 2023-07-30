@@ -13,6 +13,11 @@
         0% { opacity: 0;}
         100% { opacity: 1;}
       }
+
+      @keyframes fadeOut {
+        0% { opacity: 1;}
+        100% { opacity: 0;}
+      }
     
       @keyframes fadeUp {
         0% { opacity: 0; 
@@ -23,6 +28,10 @@
 
     .fade-in{
         animation: fadeIn 1s;
+    }
+
+    .fade-out{
+        animation: fadeOut 1s;
     }
     .fade-up{
         animation: fadeUp 1s;
@@ -126,7 +135,7 @@ body{
 }
 
 .header-spacing{
-    padding-bottom: 75px;
+    padding-bottom: 70px;
 }
 
 #canvasOutput{
@@ -139,7 +148,7 @@ body{
 
 .camera-part{
     width:100%;
-    margin-top: 10px;
+    margin-top: -10px;
     border-radius: 20px;
     border: 0px solid white;
     background-color: rgba(255, 255, 255, 0);
@@ -157,7 +166,7 @@ body{
 }
 
 .espace{
-    height:500px;
+    height:200px;
 }
 
 .nav-link{
@@ -270,7 +279,7 @@ body{
     border: 0px;
     text-align: center;
     border-radius: 30px;
-    margin-top: 40px;
+    margin-top: 20px;
     background-color: #000000e1;
     border: 1px solid black;
     overflow: hidden;
@@ -437,7 +446,7 @@ body{
 }
 
 .block-3{
-    background-color: #dcad8a;
+    background-color: #99e0fe;
     min-height: 100%;
     max-height: fit-content;
     padding-top: 0px;
@@ -469,6 +478,12 @@ body{
     padding-bottom: 50px;
 }
 
+.about-block-4{
+    background-color: rgb(250, 252, 151);
+    height: fit-content;
+    min-height: 100%;
+    padding-bottom: 50px;
+}
 
 @media only screen and (max-width: 768px) {
     .block {
@@ -561,15 +576,20 @@ body{
     font-size: 25px;
     display: inline-block;
     margin:10px;
+    transition: 0.3s;
+
 }
 
 .alpha-button:hover{
+    transition: 0.3s;
+
     transform: scale(1.1);
     transition: 0s;
     box-shadow: 4px 4px 0px 1px rgba(0, 0, 0, 0.5), 0px 0px 0px 1px rgba(0, 0, 0, 0.618);
 }
 
 .alpha-button:active{
+    transition: 0.3s;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.5), 0px 0px 0px 1px rgba(0, 0, 0, 0.618);
 }
 
@@ -707,6 +727,10 @@ body{
     margin-bottom: -20px;
 }
 
+.desc a{
+    color: inherit;
+}
+
 .desc-about{
     margin: 0px auto;
     text-align: center;
@@ -734,6 +758,21 @@ body{
     opacity: 80%;
     padding-bottom: 100px;
     margin-bottom: -20px;
+}
+
+.desc-about ul{
+    font-size: 22px;
+    margin-top: 50px;
+    height: fit-content;
+    opacity: 80%;
+    padding-bottom: 100px;
+    margin-bottom: -20px;
+    list-style-type: none;
+    display: inline-block;
+}
+
+.desc-about a{
+    color: black;
 }
 
 .about-img{
@@ -791,4 +830,50 @@ body{
     margin: 40px 10px 20px 10px;
     padding: 0px;
 
+}
+
+.tip-container{
+    width: 90%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 30px;
+    padding: 30px 40px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 30px;
+    border:1px solid black;
+    box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.403);
+}
+
+.tip-container h1{
+    font-family: "Product Sans Medium";
+    margin-bottom: 20px;
+    opacity: 85%;
+    letter-spacing: 1px;
+}
+
+.tip-container p{
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.666);
+}
+
+.tip-container a{
+    color: inherit;
+}
+
+.footer{
+    padding: 30px;
+}
+
+.footer ul li{
+    list-style-type: none;
+    display:inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer a{
+    text-decoration: none;
+    color:black;
 }

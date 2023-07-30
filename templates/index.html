@@ -22,6 +22,40 @@
                    $("#header").removeClass("active");
                }
            });
+
+        
+        //Tips
+        var allTips = ["You can change the Text-to-Speech voice and rate by clicking on the gear icon on the console.",
+        "To get English Alphabet to ASL <a href='/#English2ASL' target='_blank' >click here</a>.",
+        "Place your hand gesture in the white box for detection.", "To know more about American Sign Language <a href='/#AboutASL' target='_blank' >click here</a>.",
+        "You can turn off the camera access by clicking on the red button on the console.", "You can see what the backend in OpenCV is seeing by clicking on the green button.",
+        "Make sure you are in a well lit environment."]
+            
+        document.addEventListener("DOMContentLoaded", function(){
+            
+            setInterval(newTip, 10000);
+
+            });
+
+
+            async function newTip(){
+            var tip_element = document.getElementById("tips");
+            var currentTip = allTips[Math.floor(Math.random()*allTips.length)];
+            tip_element.classList.add('fade-out');
+            await sleep(900);
+            tip_element.innerHTML = currentTip;
+            tip_element.classList.remove('fade-out');
+            tip_element.classList.add('fade-in');
+            }
+
+            const sleep = async (milliseconds) => {
+                await new Promise(resolve => {
+                    return setTimeout(resolve, milliseconds)
+                });
+            };
+
+           
+
        </script>
    
 
@@ -38,7 +72,7 @@
                 <br>
                 <!--From camera directly-->
                 <div class="row" style="width:100%;text-align:center;margin:0 auto;">
-                    <div class="col-xl">
+                    <div class="col-lg">
                         <div class="card camera-part">
                             <!--In canvas-->
                             <canvas id="canvasOutput" style="transform:scaleX(-1);"></canvas>
@@ -54,7 +88,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl">
+                    <div class="col-lg">
                         <div class="card text-window">
                             <div class="title-bar">
                                 <i class="fa-solid fa-gear fa-lg"  onclick="Settings(this)" title="click for settings"></i>
@@ -118,9 +152,29 @@
                 <img id="preview">
                 <canvas id="canvas">
                 </canvas>
+                <br>
+                
+                <div class="tip-container">
+                    <h1>Tips</h1>
+                    <p id="tips">Place your hand gesture in the white box for detection.</p>
+                </div>
+
+               
 
 
                 <div class="espace"></div>
+                <hr>
+
+                <div class="footer">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/#English2ASL">English to ASL</a></li>
+                        <li><a href="/#AboutASL">About ASL</a></li>
+                        <li><a href="/about">About us</a></li>
+
+
+                    </ul>
+                </div>
               
 
             </div>
