@@ -35,7 +35,7 @@ python3 app.py
 
 - For non-ASL users, you can refer to the English to ASL converter on the homepage 
 
-- Follow instructions under console for further instructions
+- Follow 'Tips' under console for further instructions
 
 ## Screenshots
 
@@ -44,6 +44,7 @@ python3 app.py
 ![ASL alphabets clipart](screenshots/3.Home_asl_alphabets.png)
 ![English to ASL convertor](screenshots/4.Home_asl_to_english.png)
 ![ASL Detection with confidence percentage](screenshots/5.Live_ASL_Detection.png)
+![Backend_video_feed and Tips](screenshots/7.Backend_CV_feed.png)
 ![Text to speech settings](screenshots/6.Text_to_speech_settings.png)
 ![About US](screenshots/9.About_us.png)
 ![Our Vision](screenshots/10.Vision.png)
