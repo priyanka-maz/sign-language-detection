@@ -32,7 +32,7 @@ def image(data_image):
     frame, letter, prediction_score = sign_detection(frame) 
                                 
     
-    frame = cv2.putText(frame, 'CV', (220,190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0) , 2, cv2.LINE_AA)
+    frame = cv2.putText(frame, 'CV', (480,390), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0) , 2, cv2.LINE_AA)
     
      # Encode the frame as base64 string
     retval, buffer = cv2.imencode('.jpg', frame)

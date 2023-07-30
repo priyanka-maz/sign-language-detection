@@ -602,7 +602,7 @@ body{
 }
 
 #delete{
-    margin-bottom: 100px;
+    margin-bottom: 60px;
 
 }
 
@@ -782,9 +782,7 @@ body{
 }
 
 
-#preview{
-    margin-left: 20px;
-}
+
 
 .member-container{
     text-align: center;
@@ -842,6 +840,15 @@ body{
     margin-top: 30px;
     border:1px solid black;
     box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.403);
+    transition: 0.3s;
+
+}
+
+.tip-container:hover{
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.403);
+    transition: 0.3s;
+    background-color: rgb(247, 247, 247);
+
 }
 
 .tip-container h1{
@@ -861,19 +868,63 @@ body{
 }
 
 .footer{
-    padding: 30px;
+    padding: 0px;
 }
 
-.footer ul li{
-    list-style-type: none;
-    display:inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
+.footer ul{   
     margin: 0 auto;
     text-align: center;
+}
+
+.footer li{
+    list-style-type: none;
+    display:inline-block;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
 }
 
 .footer a{
     text-decoration: none;
     color:black;
+    opacity: 70%;
+    transform: 0.5s;
+
+}
+
+.footer a:hover{
+    opacity:90%;
+    transform: 0.5s;
+}
+
+.preview-container{
+    margin-top: 10px;
+    text-align: center;
+    padding: 10px;
+    background-color: white;
+    margin: 0 auto;
+    width: fit-content;
+    border-radius: 30px;
+    border: 1px solid black;
+    display: none;
+}
+
+.preview-container h2{
+    margin-bottom: 20px;
+    margin-top: 10px;
+    font-family: 'Product Sans Medium', sans-serif;
+    opacity: 70%;
+}
+
+.preview-container .fa-xmark{
+    margin-top: 20px;
+}
+
+#preview{
+    border-radius: 20px;
+    margin: 0 auto;
+    text-align: center; 
+    width: 400px;
 }

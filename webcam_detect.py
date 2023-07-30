@@ -84,7 +84,7 @@ def sign_detection(img):
     cv2.putText(
         img,
         predicted_char.upper(),
-        (10, 70),
+        (5, 100),
         cv2.FONT_HERSHEY_SIMPLEX,
         4,
         (255, 255, 255),
@@ -93,7 +93,7 @@ def sign_detection(img):
     cv2.putText(
         img,
         f"(score = {prediction_score:.2f})",
-        (10, 70),
+        (50, 70),
         cv2.FONT_HERSHEY_SIMPLEX,
         1,
         (255, 255, 255),

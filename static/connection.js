@@ -121,7 +121,6 @@ var a = setInterval(() => {
     }
 }, 10000/FPS);
 
-var preview_container = document.getElementById("preview2-container");
 var img = document.getElementById("preview")
 var live_letter = document.getElementById("live-letter");
 var confidence = document.getElementById("confidence");
@@ -133,8 +132,7 @@ var previous_letter = '';
 // Listen and receive data from Flask Server
 socket.on('processed_frame', function(data) {
 
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    
 
     img.width = 300;
      

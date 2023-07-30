@@ -91,13 +91,13 @@
                     <div class="col-lg">
                         <div class="card text-window">
                             <div class="title-bar">
-                                <i class="fa-solid fa-gear fa-lg"  onclick="Settings(this)" title="click for settings"></i>
+                                <i class="fa-solid fa-gear fa-lg"  onclick="Settings(this)" title="Click for settings"></i>
                                 <p class="align-middle">Console</p>
 
                                 <div class="button-yellow"></div>
 
-                                <div class="button-green"></div>
-                                <div class="button-red" onclick="RecordButton()" title="click to turn off camera"></div>
+                                <div class="button-green" onclick="ShowBackend()" title="Click to see Backend Preview"></div>
+                                <div class="button-red" onclick="RecordButton()" title="Click to turn off camera"></div>
                                
                                 <div class="range-slider-container" id="settings">
 
@@ -148,10 +148,12 @@
                         </div>
                     </div>
                 </div>
-
-                <img id="preview">
-                <canvas id="canvas">
-                </canvas>
+                <div class="mx-auto preview-container" id="preview-container">
+                    <h2>Backend Preview </h2>
+                    <img id="preview" class="img-fluid">
+                    <br>
+                </div>
+                
                 <br>
                 
                 <div class="tip-container">
@@ -172,9 +174,10 @@
                         <li><a href="/#AboutASL">About ASL</a></li>
                         <li><a href="/about">About us</a></li>
 
-
                     </ul>
+
                 </div>
+                <hr>
               
 
             </div>
@@ -296,6 +299,20 @@
         function DeleteText()
         {
             document.getElementById("interpreted-text").value='';
+        }
+
+
+        function ShowBackend(){
+            var preview = document.getElementById("preview-container");
+
+            if(preview.style.display == '' || preview.style.display =='none') {
+                preview.style.display="block";
+
+            }
+            else
+            {
+                preview.style.display="none";
+            }
         }
 
        
