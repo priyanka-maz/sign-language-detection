@@ -90,6 +90,57 @@
                     </div>
                     <div class="col-lg">
                         <div class="card text-window">
+                            <div class="range-slider-container" id="settings">
+                                <h3>Detection</h3>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="car" class="form-label" title="Takes consecutive detection of same character as one. Recommended : 5 ">Consecutive Acceptance Rate : </label>
+                                        <span id="car-value">5</span>
+                                    </div>
+                                    <div class="col-md">
+                                    <input type="range" class="form-range" min="3" max="7" value="5" step="1" id="car" title="Takes consecutive detection of same character as one. Recommended : 5 "/>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="threshold" class="form-label" title="The detection confidence in percentage after which a character is displayed on the console. Recommended : 90% ">Acceptance Threshold : </label>
+                                        <span id="threshold-value">90%</span>
+                                    </div>
+                                    <div class="col-md">
+                                    <input type="range" class="form-range" min="88" max="100" value="90" step="1" id="threshold" title="The detection confidence in percentage after which a character is displayed on the console. Recommended : 90% "/>
+
+                                    </div>
+                                </div>
+                                <br>
+                                
+
+                                <h3>Text to Speech</h3>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="voiceSelect" class="form-label" title="Select your desired speaker voice.">Speech Voices</label>
+                                    </div>
+                                    <div class="col-md">
+                                        <select id="voiceSelect" class="form-select"  title="Select your desired speaker voice."></select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="rate" class="form-label" title="How fast the speaker talks. Recommended : 1 ">Rate of Speech : </label>
+                                        <span id="rate-value">1</span>
+
+                                    </div>
+                                    <div class="col-md">
+                                    <input type="range" class="form-range" min="0" max="2" value="1" step="0.1" id="rate" title="How fast the speaker talks. Recommended : 1 "/>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                            
                             <div class="title-bar">
                                 <i class="fa-solid fa-gear fa-lg"  onclick="Settings(this)" title="Click for settings"></i>
                                 <p class="align-middle">Console</p>
@@ -99,51 +150,7 @@
                                 <div class="button-green" onclick="ShowBackend()" title="Click to see Backend Preview"></div>
                                 <div class="button-red" onclick="RecordButton()" title="Click to turn off camera"></div>
                                
-                                <div class="range-slider-container" id="settings">
-                                    
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="car" class="form-label" title="Takes consecutive detection of same character as one. Recommended : 5 ">Consecutive Acceptance Rate : </label>
-                                            <span id="car-value">5</span>
-                                        </div>
-                                        <div class="col-md">
-                                        <input type="range" class="form-range" min="3" max="7" value="5" step="1" id="car" title="Takes consecutive detection of same character as one. Recommended : 5 "/>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="threshold" class="form-label" title="The detection confidence in percentage after which a character is displayed on the console. Recommended : 90% ">Acceptance Threshold : </label>
-                                            <span id="threshold-value">90%</span>
-                                        </div>
-                                        <div class="col-md">
-                                        <input type="range" class="form-range" min="88" max="100" value="90" step="1" id="threshold" title="The detection confidence in percentage after which a character is displayed on the console. Recommended : 90% "/>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="voiceSelect" class="form-label" title="Select your desired speaker voice.">Speech Voices</label>
-                                        </div>
-                                        <div class="col-md">
-                                            <select id="voiceSelect" class="form-select"  title="Select your desired speaker voice."></select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="rate" class="form-label" title="How fast the speaker talks. Recommended : 1 ">Rate of Speech : </label>
-                                            <span id="rate-value">1</span>
-
-                                        </div>
-                                        <div class="col-md">
-                                        <input type="range" class="form-range" min="0" max="2" value="1" step="0.1" id="rate" title="How fast the speaker talks. Recommended : 1 "/>
-                                        </div>
-                                    </div>
-                                  
-                                </div>
+            
                             </div>
 
                             <i class="fa-solid fa-chevron-right"></i>
