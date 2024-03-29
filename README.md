@@ -9,6 +9,11 @@
     <p>This gif shows ASL sign detetcion and recognition of the class which is written as interpreted text.<br>To hear the text-to-speech, navigate to <a href="https://github.com/priyanka-maz/sign-language-detection/tree/02d1380cf65be57c157e2614124518a20ca95989/screenshots">Live_ASL_detection_TTS.mp4</a></p>
 </div>
 
+<h2 align="center">Youtube Video</h2>
+
+[![EchoSign Video Demo](static/EchoSign GH.png)](https://youtu.be/_4KhRjHJECY?si=FrvykzbzcqUDXan- "EchoSign Video Demo")
+
+
 ## Setup using Python virtual environment
 
 First we create the virtual environment and clone the repository into it. 
